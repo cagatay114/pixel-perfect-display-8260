@@ -16,6 +16,7 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { CartDrawer } from "../components/CartDrawer";
 import { WhatsAppButton } from "../components/WhatsAppButton";
+import { ThemeProvider, themeBootScript } from "../lib/theme";
 
 function NotFoundComponent() {
   return (
@@ -107,8 +108,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="tr">
+    <html lang="tr" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
         <HeadContent />
       </head>
       <body>
@@ -124,16 +126,18 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ShopProvider>
-        <Header />
-        <main className="min-h-screen">
-          {/* Required: nested routes render here. */}
-          <Outlet />
-        </main>
-        <Footer />
-        <CartDrawer />
-        <WhatsAppButton />
-      </ShopProvider>
+      <ThemeProvider>
+        <ShopProvider>
+          <Header />
+          <main className="min-h-screen">
+            {/* Required: nested routes render here. */}
+            <Outlet />
+          </main>
+          <Footer />
+          <CartDrawer />
+          <WhatsAppButton />
+        </ShopProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

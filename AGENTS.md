@@ -10,3 +10,5 @@
 <!-- LOVABLE:END -->
 
 - Use the shared ThemeProvider and semantic CSS tokens for all storefront and future admin colors, so one persisted preference controls the entire product.
+
+- Use the shared ThemeProvider and semantic CSS tokens for all storefront and future admin colors, so one persisted preference controls the entire product.

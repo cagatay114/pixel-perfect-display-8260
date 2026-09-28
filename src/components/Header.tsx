@@ -1,11 +1,14 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Heart, Menu, Search, ShoppingBag, User, X } from "lucide-react";
+import { Heart, Menu, Moon, Search, ShoppingBag, Sun, User, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { ANNOUNCEMENT, categories, formatPrice, products } from "@/lib/data";
 import { useShop } from "@/lib/store";
+import { useTheme } from "@/lib/theme";
+import { Button } from "@/components/ui/button";
 
 export function Header() {
   const { count, setCartOpen, favorites } = useShop();
+  const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
@@ -100,6 +103,18 @@ export function Header() {
               </span>
             )}
           </button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            aria-label={theme === "dark" ? "Açık temaya geç" : "Koyu temaya geç"}
+            title={theme === "dark" ? "Açık tema" : "Koyu tema"}
+            className="relative h-9 w-9 hover:text-gold"
+          >
+            <Sun className={`absolute h-5 w-5 transition-all ${theme === "dark" ? "rotate-0 scale-100" : "rotate-90 scale-0"}`} />
+            <Moon className={`absolute h-5 w-5 transition-all ${theme === "light" ? "rotate-0 scale-100" : "-rotate-90 scale-0"}`} />
+          </Button>
         </nav>
       </div>
 
@@ -143,7 +158,7 @@ export function Header() {
       >
         <div
           onClick={() => setMenuOpen(false)}
-          className={`absolute inset-0 bg-black/70 transition-opacity ${
+          className={`absolute inset-0 bg-overlay transition-opacity ${
             menuOpen ? "opacity-100" : "opacity-0"
           }`}
         />

@@ -16,7 +16,7 @@ export function CartDrawer() {
     <>
       <div
         onClick={() => setCartOpen(false)}
-        className={`fixed inset-0 z-50 bg-black/70 transition-opacity duration-300 ${
+        className={`fixed inset-0 z-50 bg-overlay transition-opacity duration-300 ${
           cartOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       />
