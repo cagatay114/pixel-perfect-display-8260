@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Heart, Plus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { discountPercent, formatPrice, type Product } from "@/lib/data";
 import { useShop } from "@/lib/store";
 
@@ -9,6 +9,14 @@ export function ProductCard({ product }: { product: Product }) {
   const [pickSize, setPickSize] = useState(false);
   const discount = discountPercent(product);
   const fav = isFavorite(product.slug);
+  const primaryImage = product.images[0];
+  const secondaryImage = product.images.length > 1 ? product.images[1] : undefined;
+
+  useEffect(() => {
+    if (!secondaryImage) return;
+    const image = new Image();
+    image.src = secondaryImage;
+  }, [secondaryImage]);
 
   return (
     <div className="group relative">
@@ -19,17 +27,23 @@ export function ProductCard({ product }: { product: Product }) {
       >
         <div className="relative aspect-4/5">
           <img
-            src={product.images[0]}
+            src={primaryImage}
             alt={product.name}
             loading="lazy"
-            className="h-full w-full object-contain transition-opacity duration-500 group-hover:opacity-0"
+            className={`h-full w-full object-contain transition-[opacity,transform] duration-300 ${
+              secondaryImage
+                ? "[@media(hover:hover)]:group-hover:opacity-0"
+                : "[@media(hover:hover)]:group-hover:scale-[1.02]"
+            }`}
           />
-          <img
-            src={product.images[1] ?? product.images[0]}
-            alt={`${product.name} ikinci görsel`}
-            loading="lazy"
-            className="absolute inset-0 h-full w-full object-contain opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-          />
+          {secondaryImage && (
+            <img
+              src={secondaryImage}
+              alt={`${product.name} ikinci görsel`}
+              loading="eager"
+              className="absolute inset-0 hidden h-full w-full object-contain opacity-0 transition-opacity duration-300 [@media(hover:hover)]:block [@media(hover:hover)]:group-hover:opacity-100"
+            />
+          )}
           <div className="absolute left-0 top-3 flex flex-col gap-1">
             {discount > 0 && (
               <span className="bg-gold px-2 py-1 text-[10px] font-semibold tracking-widest text-primary-foreground">
