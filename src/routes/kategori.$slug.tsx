@@ -12,9 +12,8 @@ import {
 type Search = { alt?: string };
 
 export const Route = createFileRoute("/kategori/$slug")({
-  validateSearch: (search: Record<string, unknown>): Search => ({
-    alt: typeof search.alt === "string" ? search.alt : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): Search =>
+    typeof search["alt"] === "string" ? { alt: search["alt"] } : {},
   loader: ({ params }) => {
     const category = categoryBySlug(params.slug);
     if (!category) throw notFound();
