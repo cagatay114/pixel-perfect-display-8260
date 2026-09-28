@@ -10,6 +10,8 @@ export const Route = createFileRoute("/favoriler")({
       { name: "description", content: "Beğendiğiniz RK Collection ürünleri." },
       { property: "og:title", content: "Favorilerim | RK Collection" },
       { property: "og:description", content: "Beğendiğiniz RK Collection ürünleri." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex" },
     ],
   }),

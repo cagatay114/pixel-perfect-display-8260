@@ -41,6 +41,8 @@
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-overlay: var(--overlay);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-foreground: var(--whatsapp-foreground);
   --shadow-elevated: var(--shadow-elevated);
 }
 
@@ -54,22 +56,24 @@
   --card-foreground: oklch(0.2 0.015 80);
   --popover: oklch(0.98 0.01 85);
   --popover-foreground: oklch(0.2 0.015 80);
-  --gold: #a8851a;
-  --gold-soft: oklch(0.52 0.09 85);
-  --primary: #a8851a;
-  --primary-foreground: oklch(0.98 0.01 85);
+  --gold: #8a6d12;
+  --gold-soft: oklch(0.48 0.09 85);
+  --primary: #8a6d12;
+  --primary-foreground: #1a1812;
   --secondary: oklch(0.92 0.015 85);
   --secondary-foreground: oklch(0.2 0.015 80);
   --muted: oklch(0.92 0.015 85);
   --muted-foreground: oklch(0.45 0.018 80);
-  --accent: #a8851a;
+  --accent: #8a6d12;
   --accent-foreground: oklch(0.98 0.01 85);
   --destructive: oklch(0.52 0.19 25);
   --destructive-foreground: oklch(0.98 0.01 85);
   --border: oklch(0.82 0.018 85);
   --input: oklch(0.82 0.018 85);
-  --ring: #a8851a;
+  --ring: #8a6d12;
   --overlay: oklch(0.08 0.008 70 / 0.7);
+  --whatsapp: oklch(0.65 0.19 145);
+  --whatsapp-foreground: oklch(0.99 0 0);
   --shadow-elevated: 0 24px 60px -24px oklch(0.15 0.01 70 / 0.28);
 }
 
@@ -98,6 +102,8 @@
   --input: oklch(0.31 0.012 75);
   --ring: #c9a227;
   --overlay: oklch(0.04 0.005 70 / 0.72);
+  --whatsapp: oklch(0.65 0.19 145);
+  --whatsapp-foreground: oklch(0.99 0 0);
   --shadow-elevated: 0 24px 60px -24px oklch(0 0 0 / 0.75);
 }
 

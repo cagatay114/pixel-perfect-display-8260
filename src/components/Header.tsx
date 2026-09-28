@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Heart, Menu, Moon, Search, ShoppingBag, Sun, User, X } from "lucide-react";
+import { ChevronDown, Heart, Menu, Moon, Search, ShoppingBag, Sun, User, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { ANNOUNCEMENT, categories, formatPrice, products } from "@/lib/data";
 import { useShop } from "@/lib/store";
@@ -10,8 +10,11 @@ export function Header() {
   const { count, setCartOpen, favorites } = useShop();
   const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
+  const primaryCategories = categories.slice(0, 8);
+  const moreCategories = categories.slice(8);
 
   const results = useMemo(() => {
     const q = query.trim().toLocaleLowerCase("tr");
@@ -26,14 +29,16 @@ export function Header() {
       </div>
 
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-4">
-        <button
+        <Button
           type="button"
-          className="lg:hidden"
+          variant="ghost"
+          size="icon"
+          className="h-9 w-9 shrink-0 lg:hidden"
           aria-label="Menüyü aç"
           onClick={() => setMenuOpen(true)}
         >
           <Menu className="h-6 w-6" />
-        </button>
+        </Button>
 
         <Link to="/" className="flex items-baseline gap-2">
           <span className="border border-gold px-2 py-0.5 font-display text-xl leading-none text-gold">
@@ -78,7 +83,7 @@ export function Header() {
           )}
         </div>
 
-        <nav className="ml-auto flex items-center gap-4 md:ml-4">
+        <nav className="ml-auto flex shrink-0 items-center gap-3 md:ml-4 md:gap-4">
           <Link to="/favoriler" aria-label="Favorilerim" className="relative hover:text-gold">
             <Heart className="h-5 w-5" />
             {favorites.length > 0 && (
@@ -90,11 +95,13 @@ export function Header() {
           <Link to="/hesabim" aria-label="Hesabım" className="hover:text-gold">
             <User className="h-5 w-5" />
           </Link>
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="icon"
             onClick={() => setCartOpen(true)}
             aria-label="Sepeti aç"
-            className="relative hover:text-gold"
+            className="relative h-9 w-9 hover:text-gold"
           >
             <ShoppingBag className="h-5 w-5" />
             {count > 0 && (
@@ -102,7 +109,7 @@ export function Header() {
                 {count}
               </span>
             )}
-          </button>
+          </Button>
           <Button
             type="button"
             variant="ghost"
@@ -120,34 +127,57 @@ export function Header() {
 
       <div className="hidden border-y border-border lg:block">
         <ul className="mx-auto flex max-w-7xl items-center justify-center gap-6 px-4 py-3 text-[11px] uppercase tracking-[0.16em]">
-          {categories.map((c) => (
-            <li key={c.slug} className="group relative">
+          {primaryCategories.map((c) => (
+            <li key={c.slug} className="group static">
               <Link
                 to="/kategori/$slug"
                 params={{ slug: c.slug }}
-                className="transition-colors hover:text-gold"
+                className={`transition-colors hover:text-gold ${c.slug === "indirim" ? "text-gold" : ""}`}
                 activeProps={{ className: "text-gold" }}
               >
                 {c.name}
               </Link>
               {c.subs && (
-                <ul className="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 border border-border bg-surface py-2 opacity-0 transition-opacity group-hover:visible group-hover:opacity-100">
-                  {c.subs.map((s) => (
-                    <li key={s.slug}>
-                      <Link
-                        to="/kategori/$slug"
-                        params={{ slug: c.slug }}
-                        search={{ alt: s.slug }}
-                        className="block whitespace-nowrap px-4 py-1.5 hover:text-gold"
-                      >
-                        {s.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                <div className="invisible absolute inset-x-0 top-full z-50 border-b border-border bg-surface opacity-0 shadow-elevated transition-opacity group-hover:visible group-hover:opacity-100">
+                  <div className="mx-auto grid max-w-7xl grid-cols-[220px_1fr] gap-10 px-6 py-8">
+                    <div>
+                      <p className="eyebrow">Pantolon</p>
+                      <p className="mt-2 font-display text-2xl normal-case tracking-normal">Her kalıba uygun seçimler</p>
+                    </div>
+                    <ul className="grid grid-cols-4 gap-3">
+                      {c.subs.map((s) => (
+                        <li key={s.slug}>
+                          <Link
+                            to="/kategori/$slug"
+                            params={{ slug: c.slug }}
+                            search={{ alt: s.slug }}
+                            className="block border-l border-border px-4 py-4 text-sm normal-case tracking-normal transition-colors hover:border-gold hover:text-gold"
+                          >
+                            <span className="font-display text-xl">{s.name}</span>
+                            <span className="mt-1 block text-[10px] uppercase tracking-[0.14em] text-muted-foreground">Koleksiyonu gör</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               )}
             </li>
           ))}
+          <li className="group relative">
+            <Button type="button" variant="ghost" className="h-auto gap-1 p-0 text-[11px] uppercase tracking-[0.16em] hover:bg-transparent hover:text-gold">
+              Daha Fazla <ChevronDown className="h-3 w-3" />
+            </Button>
+            <ul className="invisible absolute right-0 top-full z-50 min-w-44 border border-border bg-surface py-2 opacity-0 shadow-elevated transition-opacity group-hover:visible group-hover:opacity-100">
+              {moreCategories.map((c) => (
+                <li key={c.slug}>
+                  <Link to="/kategori/$slug" params={{ slug: c.slug }} className="block whitespace-nowrap px-4 py-2 hover:text-gold">
+                    {c.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </li>
         </ul>
       </div>
 
@@ -157,21 +187,15 @@ export function Header() {
         aria-hidden={!menuOpen}
       >
         <div
-          onClick={() => setMenuOpen(false)}
-          className={`absolute inset-0 bg-overlay transition-opacity ${
-            menuOpen ? "opacity-100" : "opacity-0"
-          }`}
-        />
-        <div
-          className={`absolute left-0 top-0 h-full w-80 max-w-[85%] overflow-y-auto bg-surface transition-transform duration-300 ${
+          className={`absolute inset-0 h-full w-full overflow-y-auto bg-background transition-transform duration-300 ${
             menuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
           <div className="flex items-center justify-between border-b border-border px-5 py-4">
             <span className="font-display text-xl">Kategoriler</span>
-            <button type="button" onClick={() => setMenuOpen(false)} aria-label="Menüyü kapat">
+            <Button variant="ghost" size="icon" type="button" onClick={() => setMenuOpen(false)} aria-label="Menüyü kapat">
               <X className="h-5 w-5" />
-            </button>
+            </Button>
           </div>
           <div className="px-5 py-4">
             <div className="relative mb-4">
@@ -199,19 +223,33 @@ export function Header() {
                 ))}
               </ul>
             )}
-            <ul className="space-y-3">
+            <ul className="divide-y divide-border border-y border-border">
               {categories.map((c) => (
-                <li key={c.slug}>
-                  <Link
-                    to="/kategori/$slug"
-                    params={{ slug: c.slug }}
-                    onClick={() => setMenuOpen(false)}
-                    className="text-sm uppercase tracking-[0.14em] hover:text-gold"
-                  >
-                    {c.name}
-                  </Link>
+                <li key={c.slug} className="py-1">
+                  <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center">
+                    <Link
+                      to="/kategori/$slug"
+                      params={{ slug: c.slug }}
+                      onClick={() => setMenuOpen(false)}
+                      className={`min-w-0 py-3 text-sm uppercase tracking-[0.14em] hover:text-gold ${c.slug === "indirim" ? "text-gold" : ""}`}
+                    >
+                      {c.name}
+                    </Link>
+                    {c.subs && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        aria-label={`${c.name} alt kategorilerini ${mobileExpanded === c.slug ? "kapat" : "aç"}`}
+                        aria-expanded={mobileExpanded === c.slug}
+                        onClick={() => setMobileExpanded((current) => current === c.slug ? null : c.slug)}
+                      >
+                        <ChevronDown className={`h-4 w-4 transition-transform ${mobileExpanded === c.slug ? "rotate-180" : ""}`} />
+                      </Button>
+                    )}
+                  </div>
                   {c.subs && (
-                    <ul className="mt-2 space-y-1 pl-4">
+                    <ul className={`overflow-hidden pl-4 transition-all ${mobileExpanded === c.slug ? "max-h-60 pb-3 opacity-100" : "max-h-0 opacity-0"}`}>
                       {c.subs.map((s) => (
                         <li key={s.slug}>
                           <Link

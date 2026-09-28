@@ -24,6 +24,8 @@ export const Route = createFileRoute("/bilgi/$slug")({
         { name: "description", content: description.slice(0, 160) },
         { property: "og:title", content: title },
         { property: "og:description", content: description.slice(0, 160) },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       ],
     };
   },
