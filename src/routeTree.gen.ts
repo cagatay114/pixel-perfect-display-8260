@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as FavorilerRouteImport } from './routes/favoriler'
 import { Route as HesabimRouteImport } from './routes/hesabim'
 import { Route as SepetRouteImport } from './routes/sepet'
+import { Route as BilgiSlugRouteImport } from './routes/bilgi.$slug'
 import { Route as KategoriSlugRouteImport } from './routes/kategori.$slug'
 import { Route as UrunSlugRouteImport } from './routes/urun.$slug'
 
@@ -36,6 +37,11 @@ const SepetRoute = SepetRouteImport.update({
   path: '/sepet',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BilgiSlugRoute = BilgiSlugRouteImport.update({
+  id: '/bilgi/$slug',
+  path: '/bilgi/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const KategoriSlugRoute = KategoriSlugRouteImport.update({
   id: '/kategori/$slug',
   path: '/kategori/$slug',
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/favoriler': typeof FavorilerRoute
   '/hesabim': typeof HesabimRoute
   '/sepet': typeof SepetRoute
+  '/bilgi/$slug': typeof BilgiSlugRoute
   '/kategori/$slug': typeof KategoriSlugRoute
   '/urun/$slug': typeof UrunSlugRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/favoriler': typeof FavorilerRoute
   '/hesabim': typeof HesabimRoute
   '/sepet': typeof SepetRoute
+  '/bilgi/$slug': typeof BilgiSlugRoute
   '/kategori/$slug': typeof KategoriSlugRoute
   '/urun/$slug': typeof UrunSlugRoute
 }
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/favoriler': typeof FavorilerRoute
   '/hesabim': typeof HesabimRoute
   '/sepet': typeof SepetRoute
+  '/bilgi/$slug': typeof BilgiSlugRoute
   '/kategori/$slug': typeof KategoriSlugRoute
   '/urun/$slug': typeof UrunSlugRoute
 }
@@ -79,6 +88,7 @@ export interface FileRouteTypes {
     | '/favoriler'
     | '/hesabim'
     | '/sepet'
+    | '/bilgi/$slug'
     | '/kategori/$slug'
     | '/urun/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -87,6 +97,7 @@ export interface FileRouteTypes {
     | '/favoriler'
     | '/hesabim'
     | '/sepet'
+    | '/bilgi/$slug'
     | '/kategori/$slug'
     | '/urun/$slug'
   id:
@@ -95,6 +106,7 @@ export interface FileRouteTypes {
     | '/favoriler'
     | '/hesabim'
     | '/sepet'
+    | '/bilgi/$slug'
     | '/kategori/$slug'
     | '/urun/$slug'
   fileRoutesById: FileRoutesById
@@ -104,6 +116,7 @@ export interface RootRouteChildren {
   FavorilerRoute: typeof FavorilerRoute
   HesabimRoute: typeof HesabimRoute
   SepetRoute: typeof SepetRoute
+  BilgiSlugRoute: typeof BilgiSlugRoute
   KategoriSlugRoute: typeof KategoriSlugRoute
   UrunSlugRoute: typeof UrunSlugRoute
 }
@@ -138,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SepetRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bilgi/$slug': {
+      id: '/bilgi/$slug'
+      path: '/bilgi/$slug'
+      fullPath: '/bilgi/$slug'
+      preLoaderRoute: typeof BilgiSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/kategori/$slug': {
       id: '/kategori/$slug'
       path: '/kategori/$slug'
@@ -160,6 +180,7 @@ const rootRouteChildren: RootRouteChildren = {
   FavorilerRoute: FavorilerRoute,
   HesabimRoute: HesabimRoute,
   SepetRoute: SepetRoute,
+  BilgiSlugRoute: BilgiSlugRoute,
   KategoriSlugRoute: KategoriSlugRoute,
   UrunSlugRoute: UrunSlugRoute,
 }
