@@ -10,33 +10,102 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FavorilerRouteImport } from './routes/favoriler'
+import { Route as HesabimRouteImport } from './routes/hesabim'
+import { Route as SepetRouteImport } from './routes/sepet'
+import { Route as KategoriSlugRouteImport } from './routes/kategori.$slug'
+import { Route as UrunSlugRouteImport } from './routes/urun.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FavorilerRoute = FavorilerRouteImport.update({
+  id: '/favoriler',
+  path: '/favoriler',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HesabimRoute = HesabimRouteImport.update({
+  id: '/hesabim',
+  path: '/hesabim',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SepetRoute = SepetRouteImport.update({
+  id: '/sepet',
+  path: '/sepet',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KategoriSlugRoute = KategoriSlugRouteImport.update({
+  id: '/kategori/$slug',
+  path: '/kategori/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UrunSlugRoute = UrunSlugRouteImport.update({
+  id: '/urun/$slug',
+  path: '/urun/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/favoriler': typeof FavorilerRoute
+  '/hesabim': typeof HesabimRoute
+  '/sepet': typeof SepetRoute
+  '/kategori/$slug': typeof KategoriSlugRoute
+  '/urun/$slug': typeof UrunSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/favoriler': typeof FavorilerRoute
+  '/hesabim': typeof HesabimRoute
+  '/sepet': typeof SepetRoute
+  '/kategori/$slug': typeof KategoriSlugRoute
+  '/urun/$slug': typeof UrunSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/favoriler': typeof FavorilerRoute
+  '/hesabim': typeof HesabimRoute
+  '/sepet': typeof SepetRoute
+  '/kategori/$slug': typeof KategoriSlugRoute
+  '/urun/$slug': typeof UrunSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/favoriler'
+    | '/hesabim'
+    | '/sepet'
+    | '/kategori/$slug'
+    | '/urun/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/favoriler'
+    | '/hesabim'
+    | '/sepet'
+    | '/kategori/$slug'
+    | '/urun/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/favoriler'
+    | '/hesabim'
+    | '/sepet'
+    | '/kategori/$slug'
+    | '/urun/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FavorilerRoute: typeof FavorilerRoute
+  HesabimRoute: typeof HesabimRoute
+  SepetRoute: typeof SepetRoute
+  KategoriSlugRoute: typeof KategoriSlugRoute
+  UrunSlugRoute: typeof UrunSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +117,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/favoriler': {
+      id: '/favoriler'
+      path: '/favoriler'
+      fullPath: '/favoriler'
+      preLoaderRoute: typeof FavorilerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hesabim': {
+      id: '/hesabim'
+      path: '/hesabim'
+      fullPath: '/hesabim'
+      preLoaderRoute: typeof HesabimRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sepet': {
+      id: '/sepet'
+      path: '/sepet'
+      fullPath: '/sepet'
+      preLoaderRoute: typeof SepetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kategori/$slug': {
+      id: '/kategori/$slug'
+      path: '/kategori/$slug'
+      fullPath: '/kategori/$slug'
+      preLoaderRoute: typeof KategoriSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/urun/$slug': {
+      id: '/urun/$slug'
+      path: '/urun/$slug'
+      fullPath: '/urun/$slug'
+      preLoaderRoute: typeof UrunSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FavorilerRoute: FavorilerRoute,
+  HesabimRoute: HesabimRoute,
+  SepetRoute: SepetRoute,
+  KategoriSlugRoute: KategoriSlugRoute,
+  UrunSlugRoute: UrunSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
