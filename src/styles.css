@@ -46,57 +46,57 @@
 
 :root {
   --radius: 0.25rem;
-  --background: oklch(0.98 0.01 85);
-  --foreground: oklch(0.2 0.015 80);
+  --background: #faf8f3;
+  --foreground: #1a1812;
   --surface: oklch(0.955 0.012 85);
   --surface-2: oklch(0.92 0.015 85);
   --card: oklch(0.98 0.01 85);
   --card-foreground: oklch(0.2 0.015 80);
   --popover: oklch(0.98 0.01 85);
   --popover-foreground: oklch(0.2 0.015 80);
-  --gold: oklch(0.61 0.105 85);
+  --gold: #a8851a;
   --gold-soft: oklch(0.52 0.09 85);
-  --primary: oklch(0.61 0.105 85);
+  --primary: #a8851a;
   --primary-foreground: oklch(0.98 0.01 85);
   --secondary: oklch(0.92 0.015 85);
   --secondary-foreground: oklch(0.2 0.015 80);
   --muted: oklch(0.92 0.015 85);
   --muted-foreground: oklch(0.45 0.018 80);
-  --accent: oklch(0.61 0.105 85);
+  --accent: #a8851a;
   --accent-foreground: oklch(0.98 0.01 85);
   --destructive: oklch(0.52 0.19 25);
   --destructive-foreground: oklch(0.98 0.01 85);
   --border: oklch(0.82 0.018 85);
   --input: oklch(0.82 0.018 85);
-  --ring: oklch(0.61 0.105 85);
+  --ring: #a8851a;
   --overlay: oklch(0.08 0.008 70 / 0.7);
   --shadow-elevated: 0 24px 60px -24px oklch(0.15 0.01 70 / 0.28);
 }
 
 :root.dark {
-  --background: oklch(0.16 0.008 70);
-  --foreground: oklch(0.94 0.014 85);
+  --background: #0e0d0b;
+  --foreground: #f1eee4;
   --surface: oklch(0.2 0.009 70);
   --surface-2: oklch(0.25 0.01 70);
   --card: oklch(0.2 0.009 70);
   --card-foreground: oklch(0.94 0.014 85);
   --popover: oklch(0.2 0.009 70);
   --popover-foreground: oklch(0.94 0.014 85);
-  --gold: oklch(0.73 0.12 85);
+  --gold: #c9a227;
   --gold-soft: oklch(0.82 0.08 88);
-  --primary: oklch(0.73 0.12 85);
+  --primary: #c9a227;
   --primary-foreground: oklch(0.16 0.008 70);
   --secondary: oklch(0.25 0.01 70);
   --secondary-foreground: oklch(0.94 0.014 85);
   --muted: oklch(0.25 0.01 70);
   --muted-foreground: oklch(0.68 0.012 85);
-  --accent: oklch(0.73 0.12 85);
+  --accent: #c9a227;
   --accent-foreground: oklch(0.16 0.008 70);
   --destructive: oklch(0.6 0.2 25);
   --destructive-foreground: oklch(0.96 0.01 85);
   --border: oklch(0.31 0.012 75);
   --input: oklch(0.31 0.012 75);
-  --ring: oklch(0.73 0.12 85);
+  --ring: #c9a227;
   --overlay: oklch(0.04 0.005 70 / 0.72);
   --shadow-elevated: 0 24px 60px -24px oklch(0 0 0 / 0.75);
 }
