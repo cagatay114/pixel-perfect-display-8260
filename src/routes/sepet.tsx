@@ -9,6 +9,8 @@ export const Route = createFileRoute("/sepet")({
       { name: "description", content: "RK Collection sepetiniz ve sipariş özeti." },
       { property: "og:title", content: "Sepetim | RK Collection" },
       { property: "og:description", content: "RK Collection sepetiniz ve sipariş özeti." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex" },
     ],
   }),

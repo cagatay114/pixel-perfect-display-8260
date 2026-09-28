@@ -165,9 +165,9 @@ export function Header() {
             </li>
           ))}
           <li className="group relative">
-            <button type="button" className="flex items-center gap-1 transition-colors hover:text-gold">
+            <Button type="button" variant="ghost" className="h-auto gap-1 p-0 text-[11px] uppercase tracking-[0.16em] hover:bg-transparent hover:text-gold">
               Daha Fazla <ChevronDown className="h-3 w-3" />
-            </button>
+            </Button>
             <ul className="invisible absolute right-0 top-full z-50 min-w-44 border border-border bg-surface py-2 opacity-0 shadow-elevated transition-opacity group-hover:visible group-hover:opacity-100">
               {moreCategories.map((c) => (
                 <li key={c.slug}>

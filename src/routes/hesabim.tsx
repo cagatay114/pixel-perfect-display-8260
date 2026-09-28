@@ -7,6 +7,8 @@ export const Route = createFileRoute("/hesabim")({
       { name: "description", content: "RK Collection üyelik, siparişler ve adres bilgileri." },
       { property: "og:title", content: "Hesabım | RK Collection" },
       { property: "og:description", content: "RK Collection üyelik ve sipariş takibi." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex" },
     ],
   }),

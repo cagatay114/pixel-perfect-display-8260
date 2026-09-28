@@ -20,6 +20,8 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Yeni sezon erkek giyim koleksiyonu. 1500 TL üzeri kargo bedava.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
