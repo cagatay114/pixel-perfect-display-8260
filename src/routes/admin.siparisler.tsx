@@ -178,6 +178,9 @@ function OrderDetail({ id, onDelete, deleting }: { id: string; onDelete: () => v
         <Input placeholder="Kargo takip no" value={tracking ?? data.tracking_number ?? ""} onChange={(e) => setTracking(e.target.value)} />
       </div>
       <Button className="w-full" onClick={save}>Kaydet</Button>
+      <Button variant="destructive" className="w-full" disabled={deleting} onClick={onDelete}>
+        Siparişi Sil
+      </Button>
     </div>
   );
 }
