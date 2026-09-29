@@ -25,6 +25,7 @@ type ShopState = {
   addToCart: (slug: string, size: string, qty?: number) => void;
   setQty: (slug: string, size: string, qty: number) => void;
   removeLine: (slug: string, size: string) => void;
+  clearCart: () => void;
   toggleFavorite: (slug: string) => void;
   isFavorite: (slug: string) => boolean;
   count: number;
@@ -145,6 +146,8 @@ export function ShopProvider({ children }: { children: ReactNode }) {
     setLines((prev) => prev.filter((l) => !(l.slug === slug && l.size === size)));
   }, []);
 
+  const clearCart = useCallback(() => setLines([]), []);
+
   const toggleFavorite = useCallback((slug: string) => {
     setFavorites((prev) =>
       prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug],
@@ -165,13 +168,14 @@ export function ShopProvider({ children }: { children: ReactNode }) {
       addToCart,
       setQty,
       removeLine,
+      clearCart,
       toggleFavorite,
       isFavorite: (slug: string) => favorites.includes(slug),
       count: lines.reduce((sum, l) => sum + l.qty, 0),
       subtotal: detailedLines.reduce((sum, d) => sum + d.product.price * d.line.qty, 0),
       detailedLines,
     };
-  }, [catalog, lines, favorites, cartOpen, addToCart, setQty, removeLine, toggleFavorite]);
+  }, [catalog, lines, favorites, cartOpen, addToCart, setQty, removeLine, clearCart, toggleFavorite]);
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 }
