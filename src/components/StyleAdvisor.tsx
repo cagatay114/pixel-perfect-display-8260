@@ -35,7 +35,7 @@ type RecommendationOutput = { productIds: string[]; rationale: string };
 function isRecommendationOutput(value: unknown): value is RecommendationOutput {
   if (!value || typeof value !== "object") return false;
   const candidate = value as Record<string, unknown>;
-  return Array.isArray(candidate.productIds) && candidate.productIds.every((id) => typeof id === "string") && typeof candidate.rationale === "string";
+  return Array.isArray(candidate["productIds"]) && candidate["productIds"].every((id) => typeof id === "string") && typeof candidate["rationale"] === "string";
 }
 
 function AdvisorChat({ initialMessages, accessToken, onClear }: AdvisorProps) {
