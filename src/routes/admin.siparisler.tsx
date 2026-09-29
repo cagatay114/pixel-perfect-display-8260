@@ -16,8 +16,11 @@ type Status = Database["public"]["Enums"]["order_status"];
 export const Route = createFileRoute("/admin/siparisler")({ component: Orders });
 
 function Orders() {
+  const qc = useQueryClient();
   const [openId, setOpenId] = useState<string | null>(null);
   const [filter, setFilter] = useState<Status | "">("");
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [deleting, setDeleting] = useState(false);
   const { data: orders = [] } = useQuery({
     queryKey: ["admin", "orders", filter],
     queryFn: async () => {
