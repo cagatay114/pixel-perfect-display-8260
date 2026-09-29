@@ -34,12 +34,12 @@ function SettingsPage() {
 
   async function save() {
     const limit = values["free_shipping_limit"];
-    if (limit && !(Number(limit) > 0)) return toast.error("Kargo limiti pozitif bir sayı olmalı.");
+    if (limit && !(Number(limit) > 0)) { toast.error("Kargo limiti pozitif bir sayı olmalı."); return; }
     setBusy(true);
     const rows = [...FIELDS.map((f) => f.key), "hero_image_url"].map((key) => ({ key, value: values[key]?.trim() || null }));
     const { error } = await supabase.from("site_settings").upsert(rows);
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Ayarlar kaydedildi");
     qc.invalidateQueries({ queryKey: ["site-settings"] });
   }

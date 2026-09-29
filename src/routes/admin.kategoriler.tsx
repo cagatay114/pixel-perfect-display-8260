@@ -35,7 +35,7 @@ function Categories() {
     const { error } = editing
       ? await supabase.from("categories").update(row).eq("id", editing)
       : await supabase.from("categories").insert(row);
-    if (error) return toast.error(error.code === "23505" ? "Bu isimde bir kategori zaten var." : error.message);
+    if (error) { toast.error(error.code === "23505" ? "Bu isimde bir kategori zaten var." : error.message); return; }
     toast.success("Kategori kaydedildi");
     reset();
     qc.invalidateQueries({ queryKey: ["admin", "categories"] });
@@ -44,7 +44,7 @@ function Categories() {
   async function remove(id: string) {
     if (!window.confirm("Kategori ve alt kategorileri silinsin mi? Ürünler kategorisiz kalır.")) return;
     const { error } = await supabase.from("categories").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries({ queryKey: ["admin", "categories"] });
   }
 

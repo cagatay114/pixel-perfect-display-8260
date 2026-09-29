@@ -85,7 +85,7 @@ function OrderDetail({ id }: { id: string }) {
       .from("orders")
       .update({ status: status ?? data!.status, tracking_number: (tracking ?? data!.tracking_number ?? "").trim() || null })
       .eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Sipariş güncellendi");
     qc.invalidateQueries({ queryKey: ["admin"] });
   }

@@ -69,7 +69,7 @@ function Products() {
   async function remove(p: Row) {
     if (!window.confirm(`"${p.name}" silinsin mi?`)) return;
     const { error } = await supabase.from("products").delete().eq("id", p.id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries({ queryKey: ["admin"] });
   }
 
@@ -139,13 +139,13 @@ function ProductForm({ draft, setDraft, onSaved }: { draft: Draft; setDraft: (d:
     const imgs = [...draft.images];
     const j = i + dir;
     if (j < 0 || j >= imgs.length) return;
-    [imgs[i], imgs[j]] = [imgs[j], imgs[i]];
+    [imgs[i], imgs[j]] = [imgs[j]!, imgs[i]!];
     set({ images: imgs });
   };
 
   async function save() {
-    if (!draft.name.trim() || !(price >= 0) || !draft.price) return toast.error("Ad ve fiyat zorunlu.");
-    if (draft.compare_at_price && !(old > price)) return toast.error("Eski fiyat, satış fiyatından yüksek olmalı.");
+    if (!draft.name.trim() || !(price >= 0) || !draft.price) { toast.error("Ad ve fiyat zorunlu."); return; }
+    if (draft.compare_at_price && !(old > price)) { toast.error("Eski fiyat, satış fiyatından yüksek olmalı."); return; }
     setBusy(true);
     const row = {
       name: draft.name.trim(),
@@ -164,7 +164,7 @@ function ProductForm({ draft, setDraft, onSaved }: { draft: Draft; setDraft: (d:
       : await supabase.from("products").insert(row).select("id").single();
     if (res.error) {
       setBusy(false);
-      return toast.error(res.error.code === "23505" ? "Bu isimde bir ürün zaten var." : res.error.message);
+      { toast.error(res.error.code === "23505" ? "Bu isimde bir ürün zaten var." : res.error.message); return; }
     }
     const id = res.data.id;
     const sizes = draft.sizes.filter((s) => s.size.trim());
@@ -173,7 +173,7 @@ function ProductForm({ draft, setDraft, onSaved }: { draft: Draft; setDraft: (d:
       const { error } = await supabase.from("product_variants").insert(
         sizes.map((s) => ({ product_id: id, size: s.size.trim(), stock: Math.max(0, parseInt(s.stock) || 0) })),
       );
-      if (error) { setBusy(false); return toast.error("Beden stokları kaydedilemedi: " + error.message); }
+      if (error) { setBusy(false); { toast.error("Beden stokları kaydedilemedi: " + error.message); return; } }
     }
     setBusy(false);
     toast.success("Ürün kaydedildi");
