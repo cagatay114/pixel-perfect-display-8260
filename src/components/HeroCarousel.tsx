@@ -59,10 +59,10 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
           )}
           <div className="absolute inset-0 bg-overlay" />
           <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-6 pb-14 pt-8 sm:px-12 md:px-20 lg:px-24">
-            <div className="max-w-3xl text-background dark:text-foreground">
+            <div className="max-w-3xl text-hero-foreground">
               <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-gold">{slide.eyebrow}</p>
               <h1 className="mt-3 max-w-2xl text-4xl leading-[0.98] sm:text-5xl md:text-6xl lg:text-7xl">{slide.title}</h1>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-background/85 dark:text-foreground/85 sm:text-base">{slide.subtitle}</p>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-hero-foreground/85 sm:text-base">{slide.subtitle}</p>
               <Link
                 to="/kategori/$slug"
                 params={{ slug: slide.buttonLink }}
@@ -84,7 +84,7 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
             size="icon"
             onClick={() => goTo(active - 1)}
             aria-label="Önceki banner"
-            className="absolute left-3 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 border-foreground/40 bg-background/20 text-foreground backdrop-blur-sm hover:border-gold hover:bg-background/35 sm:inline-flex md:left-6 md:h-12 md:w-12"
+            className="absolute left-3 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 border-hero-foreground/40 bg-background/20 text-hero-foreground backdrop-blur-sm hover:border-gold hover:bg-background/35 sm:inline-flex md:left-6 md:h-12 md:w-12"
           >
             <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
           </Button>
@@ -94,7 +94,7 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
             size="icon"
             onClick={() => goTo(active + 1)}
             aria-label="Sonraki banner"
-            className="absolute right-3 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 border-foreground/40 bg-background/20 text-foreground backdrop-blur-sm hover:border-gold hover:bg-background/35 sm:inline-flex md:right-6 md:h-12 md:w-12"
+            className="absolute right-3 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 border-hero-foreground/40 bg-background/20 text-hero-foreground backdrop-blur-sm hover:border-gold hover:bg-background/35 sm:inline-flex md:right-6 md:h-12 md:w-12"
           >
             <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
           </Button>
@@ -110,7 +110,9 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
                 aria-label={`${index + 1}. bannerı göster`}
                 onClick={() => goTo(index)}
                 className="h-8 w-8 rounded-full bg-transparent p-0 hover:bg-transparent"
-              />
+              >
+                <span className={`h-2.5 w-2.5 rounded-full border transition-colors ${index === active ? "border-gold bg-gold" : "border-hero-foreground/70 bg-transparent"}`} />
+              </Button>
             ))}
           </div>
         </>

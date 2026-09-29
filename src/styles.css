@@ -44,6 +44,7 @@
   --color-hero-base: var(--hero-base);
   --color-hero-line: var(--hero-line);
   --color-hero-glow: var(--hero-glow);
+  --color-hero-foreground: var(--hero-foreground);
   --color-whatsapp: var(--whatsapp);
   --color-whatsapp-foreground: var(--whatsapp-foreground);
   --shadow-elevated: var(--shadow-elevated);
@@ -78,6 +79,7 @@
   --hero-base: oklch(0.17 0.012 70);
   --hero-line: oklch(0.62 0.06 85 / 0.18);
   --hero-glow: oklch(0.42 0.045 82 / 0.34);
+  --hero-foreground: #f1eee4;
   --whatsapp: oklch(0.65 0.19 145);
   --whatsapp-foreground: oklch(0.99 0 0);
   --shadow-elevated: 0 24px 60px -24px oklch(0.15 0.01 70 / 0.28);
@@ -111,6 +113,7 @@
   --hero-base: oklch(0.13 0.009 70);
   --hero-line: oklch(0.72 0.08 86 / 0.2);
   --hero-glow: oklch(0.36 0.055 82 / 0.35);
+  --hero-foreground: #f1eee4;
   --whatsapp: oklch(0.65 0.19 145);
   --whatsapp-foreground: oklch(0.99 0 0);
   --shadow-elevated: 0 24px 60px -24px oklch(0 0 0 / 0.75);
