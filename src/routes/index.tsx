@@ -5,6 +5,7 @@ import { ProductRail } from "@/components/ProductRail";
 import { STORE } from "@/lib/data";
 import { useCatalog } from "@/lib/catalog";
 import { useStoreSettings } from "@/lib/site-settings";
+import { HeroCarousel } from "@/components/HeroCarousel";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -39,46 +40,11 @@ function Index() {
   const { categories, products } = useCatalog();
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
-  const { heroImageUrl, heroEyebrow, heroTitle, heroSubtitle } = useStoreSettings();
+  const { heroSlides } = useStoreSettings();
 
   return (
     <>
-      <section className="border-b border-border bg-background">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 md:min-h-100 md:max-h-[70vh]">
-          <div className="flex min-h-90 items-center px-4 py-10 sm:px-8 md:min-h-100 md:px-12 lg:px-16">
-            <div className="max-w-xl">
-              <p className="eyebrow">{heroEyebrow}</p>
-              <h1 className="mt-3 text-3xl leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
-                {heroTitle ?? <>Sade kalıplar,<br />ağırlığı hissedilen kumaşlar</>}
-              </h1>
-              {heroSubtitle && <p className="mt-4 text-sm text-muted-foreground md:text-base">{heroSubtitle}</p>}
-              <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row">
-                <Link to="/kategori/$slug" params={{ slug: "yeni-gelenler" }} className="btn-gold">
-                  Yeni Gelenler
-                </Link>
-                <Link to="/kategori/$slug" params={{ slug: "indirim" }} className="btn-outline">
-                  İndirimdekiler
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="flex min-h-90 items-center justify-center bg-surface-2 p-3 md:min-h-100 md:p-6">
-            <div className="flex aspect-4/5 h-full max-h-[64vh] w-full items-center justify-center overflow-hidden border border-border bg-surface">
-              {heroImageUrl ? (
-                <img
-                  src={heroImageUrl}
-                  alt="RK Collection sezon koleksiyonu"
-                  className="h-full w-full object-contain"
-                />
-              ) : (
-                <div className="flex h-full w-full items-end justify-center bg-foreground/90 p-4 text-center text-[10px] uppercase tracking-[0.18em] text-background/70">
-                  Mağaza fotoğrafı yakında
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroCarousel slides={heroSlides} />
 
       <section aria-label="Alışveriş avantajları" className="border-b border-border bg-surface">
         <div className="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-4">
