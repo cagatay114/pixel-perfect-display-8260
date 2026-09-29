@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ProductCard } from "@/components/ProductCard";
-import { bestSellingProducts } from "@/lib/best-sellers";
+import { rankProductsBySales } from "@/lib/best-sellers";
+import { useCatalog } from "@/lib/catalog";
 
 export const Route = createFileRoute("/cok-satanlar")({
   head: () => ({
@@ -23,6 +24,8 @@ export const Route = createFileRoute("/cok-satanlar")({
 });
 
 function BestSellersPage() {
+  // Sipariş altyapısı gelince yalnızca tamamlanan sipariş satırları buraya aktarılacak.
+  const bestSellingProducts = rankProductsBySales([], useCatalog().products);
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
       <p className="eyebrow">RK Collection</p>

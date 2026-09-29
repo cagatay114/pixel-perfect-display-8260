@@ -11,7 +11,7 @@ import {
 } from "ai";
 import { z } from "zod";
 import type { Database, Json } from "@/integrations/supabase/types";
-import { products } from "@/lib/data";
+import { fetchCatalog } from "@/lib/catalog";
 import { createLovableAiGateway } from "@/lib/lovable-ai.server";
 
 const requestSchema = z.object({
@@ -56,6 +56,7 @@ export const Route = createFileRoute("/api/stil-danismani")({
           return Response.json({ message: "Gönderilen mesaj geçerli değil." }, { status: 400 });
         }
 
+        const { products } = await fetchCatalog(supabase);
         const validProducts = new Map(products.map((product) => [product.id, product]));
         const catalog = products.map(({ id, slug, name, category, subcategory, price, oldPrice, color, sizes }) => ({
           id,

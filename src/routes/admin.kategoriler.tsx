@@ -39,6 +39,7 @@ function Categories() {
     toast.success("Kategori kaydedildi");
     reset();
     qc.invalidateQueries({ queryKey: ["admin", "categories"] });
+    qc.invalidateQueries({ queryKey: ["catalog"] });
   }
 
   async function remove(id: string) {
@@ -46,6 +47,7 @@ function Categories() {
     const { error } = await supabase.from("categories").delete().eq("id", id);
     if (error) { toast.error(error.message); return; }
     qc.invalidateQueries({ queryKey: ["admin", "categories"] });
+    qc.invalidateQueries({ queryKey: ["catalog"] });
   }
 
   return (

@@ -2,13 +2,15 @@ import { useStoreSettings } from "@/lib/site-settings";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Bot, ChevronDown, Flame, Heart, Menu, Moon, Search, ShoppingBag, Sun, User, X } from "lucide-react";
 import { useMemo, useState } from "react";
-import { categories, formatPrice, products } from "@/lib/data";
+import { formatPrice } from "@/lib/data";
+import { useCatalog } from "@/lib/catalog";
 import { useShop } from "@/lib/store";
 import { useTheme } from "@/lib/theme";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
   const { announcement } = useStoreSettings();
+  const { categories, products } = useCatalog();
   const { count, setCartOpen, favorites } = useShop();
   const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);

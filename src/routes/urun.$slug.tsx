@@ -2,18 +2,14 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Heart, Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { ProductCard } from "@/components/ProductCard";
-import {
-  categoryBySlug,
-  discountPercent,
-  formatPrice,
-  getProduct,
-  products,
-} from "@/lib/data";
+import { discountPercent, formatPrice } from "@/lib/data";
+import { catalogQuery, categoryBySlug, getProduct, useCatalog } from "@/lib/catalog";
 import { useShop } from "@/lib/store";
 
 export const Route = createFileRoute("/urun/$slug")({
-  loader: ({ params }) => {
-    const product = getProduct(params.slug);
+  loader: async ({ params, context }) => {
+    const catalog = await context.queryClient.ensureQueryData(catalogQuery);
+    const product = getProduct(catalog, params.slug);
     if (!product) throw notFound();
     return { product };
   },
@@ -44,6 +40,7 @@ const TABS = ["Açıklama", "Beden Tablosu", "Teslimat ve İade"] as const;
 
 function ProductPage() {
   const { product } = Route.useLoaderData();
+  const catalog = useCatalog();
   const { addToCart, toggleFavorite, isFavorite } = useShop();
 
   const [imageIndex, setImageIndex] = useState(0);
@@ -54,11 +51,11 @@ function ProductPage() {
   const [warn, setWarn] = useState(false);
 
   const discount = discountPercent(product);
-  const category = categoryBySlug(product.category);
+  const category = categoryBySlug(catalog, product.category);
   const siblings = (product.siblings ?? [])
-    .map((s) => getProduct(s))
+    .map((s) => getProduct(catalog, s))
     .filter((p): p is NonNullable<typeof p> => Boolean(p));
-  const similar = products
+  const similar = catalog.products
     .filter((p) => p.category === product.category && p.slug !== product.slug)
     .slice(0, 4);
 

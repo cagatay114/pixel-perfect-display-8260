@@ -1,21 +1,17 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ProductCard } from "@/components/ProductCard";
-import {
-  categoryBySlug,
-  discountPercent,
-  formatPrice,
-  productsForCategory,
-  type Product,
-} from "@/lib/data";
+import { discountPercent, formatPrice, type Product } from "@/lib/data";
+import { catalogQuery, categoryBySlug, productsForCategory, useCatalog } from "@/lib/catalog";
 
 type Search = { alt?: string };
 
 export const Route = createFileRoute("/kategori/$slug")({
   validateSearch: (search: Record<string, unknown>): Search =>
     typeof search["alt"] === "string" ? { alt: search["alt"] } : {},
-  loader: ({ params }) => {
-    const category = categoryBySlug(params.slug);
+  loader: async ({ params, context }) => {
+    const catalog = await context.queryClient.ensureQueryData(catalogQuery);
+    const category = categoryBySlug(catalog, params.slug);
     if (!category) throw notFound();
     return { category };
   },
@@ -43,8 +39,9 @@ const PAGE_SIZE = 8;
 function CategoryPage() {
   const { category } = Route.useLoaderData();
   const { alt } = Route.useSearch();
+  const catalog = useCatalog();
 
-  const base = useMemo(() => productsForCategory(category.slug, alt), [category.slug, alt]);
+  const base = useMemo(() => productsForCategory(catalog, category.slug, alt), [catalog, category.slug, alt]);
 
   const [sizes, setSizes] = useState<string[]>([]);
   const [colors, setColors] = useState<string[]>([]);

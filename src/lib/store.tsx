@@ -7,7 +7,8 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { getProduct, type Product } from "./data";
+import type { Product } from "./data";
+import { getProduct, useCatalog } from "./catalog";
 
 export type CartLine = {
   slug: string;
@@ -96,9 +97,10 @@ export function ShopProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const catalog = useCatalog();
   const value = useMemo<ShopState>(() => {
     const detailedLines = lines
-      .map((line) => ({ line, product: getProduct(line.slug) }))
+      .map((line) => ({ line, product: getProduct(catalog, line.slug) }))
       .filter((x): x is { line: CartLine; product: Product } => Boolean(x.product));
 
     return {
@@ -115,7 +117,7 @@ export function ShopProvider({ children }: { children: ReactNode }) {
       subtotal: detailedLines.reduce((sum, d) => sum + d.product.price * d.line.qty, 0),
       detailedLines,
     };
-  }, [lines, favorites, cartOpen, addToCart, setQty, removeLine, toggleFavorite]);
+  }, [catalog, lines, favorites, cartOpen, addToCart, setQty, removeLine, toggleFavorite]);
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 }

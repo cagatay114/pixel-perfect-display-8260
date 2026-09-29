@@ -38,6 +38,7 @@ type Draft = {
   price: string;
   compare_at_price: string;
   color: string;
+  color_hex: string;
   images: string[];
   is_active: boolean;
   is_new: boolean;
@@ -45,7 +46,7 @@ type Draft = {
 };
 
 const empty: Draft = {
-  name: "", description: "", category_id: "", price: "", compare_at_price: "", color: "", images: [],
+  name: "", description: "", category_id: "", price: "", compare_at_price: "", color: "", color_hex: "#111111", images: [],
   is_active: true, is_new: false,
   sizes: ["S", "M", "L", "XL"].map((size) => ({ size, stock: "0" })),
 };
@@ -61,7 +62,7 @@ function Products() {
     setDraft({
       id: p.id, name: p.name, description: p.description, category_id: p.category_id ?? "",
       price: String(p.price), compare_at_price: p.compare_at_price ? String(p.compare_at_price) : "",
-      color: p.color, images: p.images, is_active: p.is_active, is_new: p.is_new,
+      color: p.color, color_hex: p.color_hex, images: p.images, is_active: p.is_active, is_new: p.is_new,
       sizes: p.product_variants.map((v) => ({ size: v.size, stock: String(v.stock) })),
     });
   }
@@ -70,7 +71,7 @@ function Products() {
     if (!window.confirm(`"${p.name}" silinsin mi?`)) return;
     const { error } = await supabase.from("products").delete().eq("id", p.id);
     if (error) { toast.error(error.message); return; }
-    qc.invalidateQueries({ queryKey: ["admin"] });
+    qc.invalidateQueries({ queryKey: ["admin"] }); qc.invalidateQueries({ queryKey: ["catalog"] });
   }
 
   return (
@@ -107,7 +108,7 @@ function Products() {
       )}
       <Dialog open={!!draft} onOpenChange={(o) => !o && setDraft(null)}>
         <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
-          {draft && <ProductForm draft={draft} setDraft={setDraft} onSaved={() => { setDraft(null); qc.invalidateQueries({ queryKey: ["admin"] }); }} />}
+          {draft && <ProductForm draft={draft} setDraft={setDraft} onSaved={() => { setDraft(null); qc.invalidateQueries({ queryKey: ["admin"] }); qc.invalidateQueries({ queryKey: ["catalog"] }); }} />}
         </DialogContent>
       </Dialog>
     </div>
@@ -155,6 +156,7 @@ function ProductForm({ draft, setDraft, onSaved }: { draft: Draft; setDraft: (d:
       price,
       compare_at_price: draft.compare_at_price ? old : null,
       color: draft.color.trim(),
+      color_hex: draft.color_hex,
       images: draft.images,
       is_active: draft.is_active,
       is_new: draft.is_new,
@@ -196,7 +198,7 @@ function ProductForm({ draft, setDraft, onSaved }: { draft: Draft; setDraft: (d:
             ])}
           </select>
         </div>
-        <div className="space-y-2"><Label>Renk</Label><Input value={draft.color} onChange={(e) => set({ color: e.target.value })} /></div>
+        <div className="space-y-2"><Label>Renk</Label><div className="flex gap-2"><Input value={draft.color} onChange={(e) => set({ color: e.target.value })} /><input type="color" aria-label="Renk kodu" className="h-9 w-12 rounded border border-input bg-background" value={draft.color_hex} onChange={(e) => set({ color_hex: e.target.value })} /></div></div>
         <div className="space-y-2"><Label>Fiyat (TL, KDV dahil)</Label><Input type="number" min="0" step="0.01" value={draft.price} onChange={(e) => set({ price: e.target.value })} /></div>
         <div className="space-y-2">
           <Label>Eski fiyat (isteğe bağlı)</Label>

@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ProductCard } from "@/components/ProductCard";
-import { getProduct } from "@/lib/data";
+import { getProduct, useCatalog } from "@/lib/catalog";
 import { useShop } from "@/lib/store";
 
 export const Route = createFileRoute("/favoriler")({
@@ -19,8 +19,9 @@ export const Route = createFileRoute("/favoriler")({
 });
 
 function FavoritesPage() {
+  const catalog = useCatalog();
   const { favorites } = useShop();
-  const items = favorites.map(getProduct).filter((p): p is NonNullable<typeof p> => Boolean(p));
+  const items = favorites.map((slug) => getProduct(catalog, slug)).filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
