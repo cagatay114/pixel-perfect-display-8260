@@ -1,14 +1,11 @@
-import { products, type Product } from "./data";
+import type { Product } from "./data";
 
 export type ProductSale = {
   productSlug: string;
   quantity: number;
 };
 
-export function rankProductsBySales(
-  sales: ProductSale[],
-  productList: Product[] = products,
-): Product[] {
+export function rankProductsBySales(sales: ProductSale[], productList: Product[]): Product[] {
   const totals = sales.reduce<Map<string, number>>((result, sale) => {
     result.set(sale.productSlug, (result.get(sale.productSlug) ?? 0) + sale.quantity);
     return result;
@@ -21,7 +18,3 @@ export function rankProductsBySales(
     return salesDifference || productList.indexOf(left) - productList.indexOf(right);
   });
 }
-
-// Sipariş altyapısı devreye girene kadar ürünlerin mevcut sırası kullanılır.
-// Sonrasında yalnızca tamamlanan siparişlerin satırları bu fonksiyona aktarılacak.
-export const bestSellingProducts = rankProductsBySales([]);
