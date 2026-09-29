@@ -83,16 +83,34 @@ function Orders() {
         <div className="overflow-x-auto rounded-lg border border-border">
           <table className="w-full text-sm">
             <thead className="bg-secondary text-left text-xs uppercase tracking-wider text-muted-foreground">
-              <tr><th className="p-3">No</th><th className="p-3">Tarih</th><th className="p-3">Müşteri</th><th className="p-3">Tutar</th><th className="p-3">Durum</th></tr>
+              <tr>
+                <th className="p-3 w-8">
+                  <input
+                    type="checkbox"
+                    aria-label="Tümünü seç"
+                    checked={allSelected}
+                    onChange={() => setSelected(allSelected ? new Set() : new Set(orders.map((o) => o.id)))}
+                  />
+                </th>
+                <th className="p-3">No</th><th className="p-3">Tarih</th><th className="p-3">Müşteri</th><th className="p-3">Tutar</th><th className="p-3">Durum</th><th className="p-3 w-16"></th>
+              </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {orders.map((o) => (
                 <tr key={o.id} className="cursor-pointer hover:bg-secondary/50" onClick={() => setOpenId(o.id)}>
+                  <td className="p-3" onClick={(e) => e.stopPropagation()}>
+                    <input type="checkbox" aria-label={`Sipariş #${o.order_number} seç`} checked={selected.has(o.id)} onChange={() => toggle(o.id)} />
+                  </td>
                   <td className="p-3">#{o.order_number}</td>
                   <td className="p-3">{new Date(o.created_at).toLocaleString("tr-TR")}</td>
                   <td className="p-3">{o.customer_name}</td>
                   <td className="p-3">{formatPrice(Number(o.total))}</td>
                   <td className="p-3 text-gold">{statusLabel(o.status)}</td>
+                  <td className="p-3" onClick={(e) => e.stopPropagation()}>
+                    <Button variant="ghost" size="sm" className="text-destructive" disabled={deleting} onClick={() => remove([o.id])}>
+                      Sil
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
