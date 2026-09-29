@@ -82,7 +82,7 @@ function AuthForm() {
 
   async function submit(e: FormEvent) {
     e.preventDefault();
-    if (password.length < 8) return toast.error("Şifre en az 8 karakter olmalı");
+    if (password.length < 8) { toast.error("Şifre en az 8 karakter olmalı"); return; }
     setBusy(true);
     if (mode === "signup") {
       const { error } = await supabase.auth.signUp({
@@ -133,7 +133,7 @@ function AuthForm() {
           onChange={(e) => setPassword(e.target.value)}
           className="w-full border border-border bg-background px-4 py-3 text-sm"
         />
-        <button type="submit" disabled={busy} className="btn-primary w-full">
+        <button type="submit" disabled={busy} className="btn-gold w-full">
           {busy ? "Lütfen bekleyin…" : mode === "signin" ? "Giriş yap" : "Hesap oluştur"}
         </button>
       </form>
