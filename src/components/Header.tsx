@@ -8,6 +8,7 @@ import { useTheme } from "@/lib/theme";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
+  const { announcement } = useStoreSettings();
   const { count, setCartOpen, favorites } = useShop();
   const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);

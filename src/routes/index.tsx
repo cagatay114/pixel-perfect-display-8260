@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { PackageCheck, RotateCcw, Store, Truck } from "lucide-react";
 import { useState } from "react";
 import { ProductRail } from "@/components/ProductRail";
 import { STORE, categories, products } from "@/lib/data";
-import { siteSettingsQuery } from "@/lib/site-settings";
+import { useStoreSettings } from "@/lib/site-settings";
 
 export const Route = createFileRoute("/")({
   head: () => ({
