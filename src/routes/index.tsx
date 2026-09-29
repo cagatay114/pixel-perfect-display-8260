@@ -38,8 +38,7 @@ const trustItems = [
 function Index() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
-  const { data: siteSettings } = useQuery(siteSettingsQuery);
-  const heroImageUrl = siteSettings?.["hero_image_url"];
+  const { heroImageUrl, heroEyebrow, heroTitle, heroSubtitle } = useStoreSettings();
 
   return (
     <>
@@ -47,10 +46,11 @@ function Index() {
         <div className="mx-auto grid max-w-7xl grid-cols-2 md:min-h-100 md:max-h-[70vh]">
           <div className="flex min-h-90 items-center px-4 py-10 sm:px-8 md:min-h-100 md:px-12 lg:px-16">
             <div className="max-w-xl">
-              <p className="eyebrow">Sonbahar / Kış 2026</p>
+              <p className="eyebrow">{heroEyebrow}</p>
               <h1 className="mt-3 text-3xl leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
-                Sade kalıplar,<br />ağırlığı hissedilen kumaşlar
+                {heroTitle ?? <>Sade kalıplar,<br />ağırlığı hissedilen kumaşlar</>}
               </h1>
+              {heroSubtitle && <p className="mt-4 text-sm text-muted-foreground md:text-base">{heroSubtitle}</p>}
               <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row">
                 <Link to="/kategori/$slug" params={{ slug: "yeni-gelenler" }} className="btn-gold">
                   Yeni Gelenler

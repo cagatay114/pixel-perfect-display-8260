@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { Minus, Plus, X } from "lucide-react";
 import { useState } from "react";
-import { FREE_SHIPPING_LIMIT, formatPrice } from "@/lib/data";
+import { formatPrice } from "@/lib/data";
+import { useStoreSettings } from "@/lib/site-settings";
 import { useShop } from "@/lib/store";
 
 export function CartDrawer() {
@@ -9,6 +10,7 @@ export function CartDrawer() {
   const [coupon, setCoupon] = useState("");
   const [couponMsg, setCouponMsg] = useState<string | null>(null);
 
+  const { freeShippingLimit: FREE_SHIPPING_LIMIT } = useStoreSettings();
   const remaining = Math.max(0, FREE_SHIPPING_LIMIT - subtotal);
   const progress = Math.min(100, (subtotal / FREE_SHIPPING_LIMIT) * 100);
 
