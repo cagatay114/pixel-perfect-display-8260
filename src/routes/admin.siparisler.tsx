@@ -124,7 +124,7 @@ function Orders() {
   );
 }
 
-function OrderDetail({ id }: { id: string }) {
+function OrderDetail({ id, onDelete, deleting }: { id: string; onDelete: () => void; deleting: boolean }) {
   const qc = useQueryClient();
   const { data } = useQuery({
     queryKey: ["admin", "order", id],
