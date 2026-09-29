@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CokSatanlarRouteImport } from './routes/cok-satanlar'
 import { Route as FavorilerRouteImport } from './routes/favoriler'
 import { Route as HesabimRouteImport } from './routes/hesabim'
 import { Route as SepetRouteImport } from './routes/sepet'
@@ -20,6 +21,11 @@ import { Route as UrunSlugRouteImport } from './routes/urun.$slug'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CokSatanlarRoute = CokSatanlarRouteImport.update({
+  id: '/cok-satanlar',
+  path: '/cok-satanlar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FavorilerRoute = FavorilerRouteImport.update({
@@ -55,6 +61,7 @@ const UrunSlugRoute = UrunSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cok-satanlar': typeof CokSatanlarRoute
   '/favoriler': typeof FavorilerRoute
   '/hesabim': typeof HesabimRoute
   '/sepet': typeof SepetRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cok-satanlar': typeof CokSatanlarRoute
   '/favoriler': typeof FavorilerRoute
   '/hesabim': typeof HesabimRoute
   '/sepet': typeof SepetRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cok-satanlar': typeof CokSatanlarRoute
   '/favoriler': typeof FavorilerRoute
   '/hesabim': typeof HesabimRoute
   '/sepet': typeof SepetRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cok-satanlar'
     | '/favoriler'
     | '/hesabim'
     | '/sepet'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cok-satanlar'
     | '/favoriler'
     | '/hesabim'
     | '/sepet'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/cok-satanlar'
     | '/favoriler'
     | '/hesabim'
     | '/sepet'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CokSatanlarRoute: typeof CokSatanlarRoute
   FavorilerRoute: typeof FavorilerRoute
   HesabimRoute: typeof HesabimRoute
   SepetRoute: typeof SepetRoute
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cok-satanlar': {
+      id: '/cok-satanlar'
+      path: '/cok-satanlar'
+      fullPath: '/cok-satanlar'
+      preLoaderRoute: typeof CokSatanlarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/favoriler': {
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CokSatanlarRoute: CokSatanlarRoute,
   FavorilerRoute: FavorilerRoute,
   HesabimRoute: HesabimRoute,
   SepetRoute: SepetRoute,
