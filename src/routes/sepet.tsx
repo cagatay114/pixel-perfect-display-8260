@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { FREE_SHIPPING_LIMIT, formatPrice } from "@/lib/data";
+import { formatPrice } from "@/lib/data";
+import { useStoreSettings } from "@/lib/site-settings";
 import { useShop } from "@/lib/store";
 
 export const Route = createFileRoute("/sepet")({
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/sepet")({
 
 function CartPage() {
   const { detailedLines, subtotal, setQty, removeLine } = useShop();
+  const { freeShippingLimit: FREE_SHIPPING_LIMIT } = useStoreSettings();
   const shipping = subtotal >= FREE_SHIPPING_LIMIT || subtotal === 0 ? 0 : 89;
 
   return (

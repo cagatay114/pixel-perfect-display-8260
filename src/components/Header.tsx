@@ -1,12 +1,14 @@
+import { useStoreSettings } from "@/lib/site-settings";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Bot, ChevronDown, Flame, Heart, Menu, Moon, Search, ShoppingBag, Sun, User, X } from "lucide-react";
 import { useMemo, useState } from "react";
-import { ANNOUNCEMENT, categories, formatPrice, products } from "@/lib/data";
+import { categories, formatPrice, products } from "@/lib/data";
 import { useShop } from "@/lib/store";
 import { useTheme } from "@/lib/theme";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
+  const { announcement } = useStoreSettings();
   const { count, setCartOpen, favorites } = useShop();
   const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,7 +27,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 bg-background/95 backdrop-blur">
       <div className="bg-gold px-4 py-2 text-center text-[11px] font-medium uppercase tracking-[0.18em] text-primary-foreground">
-        {ANNOUNCEMENT}
+        {announcement}
       </div>
 
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-4">

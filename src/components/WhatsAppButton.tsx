@@ -1,9 +1,10 @@
-import { WHATSAPP_NUMBER } from "@/lib/data";
+import { useStoreSettings } from "@/lib/site-settings";
 
 export function WhatsAppButton() {
+  const { whatsappNumber } = useStoreSettings();
   return (
     <a
-      href={`https://wa.me/${WHATSAPP_NUMBER}`}
+      href={`https://wa.me/${whatsappNumber}`}
       target="_blank"
       rel="noreferrer"
       aria-label="WhatsApp ile yaz"
