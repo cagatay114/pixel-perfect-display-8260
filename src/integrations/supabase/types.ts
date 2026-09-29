@@ -67,6 +67,30 @@ export type Database = {
           },
         ]
       }
+      customer_shop_state: {
+        Row: {
+          cart: Json
+          created_at: string
+          favorites: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cart?: Json
+          created_at?: string
+          favorites?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cart?: Json
+          created_at?: string
+          favorites?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           color: string
