@@ -208,6 +208,7 @@ export type Database = {
         Row: {
           category_id: string | null
           color: string
+          color_hex: string
           compare_at_price: number | null
           created_at: string
           description: string
@@ -223,6 +224,7 @@ export type Database = {
         Insert: {
           category_id?: string | null
           color?: string
+          color_hex?: string
           compare_at_price?: number | null
           created_at?: string
           description?: string
@@ -238,6 +240,7 @@ export type Database = {
         Update: {
           category_id?: string | null
           color?: string
+          color_hex?: string
           compare_at_price?: number | null
           created_at?: string
           description?: string

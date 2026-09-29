@@ -1,0 +1,1 @@
+ALTER TABLE public.products ADD COLUMN color_hex TEXT NOT NULL DEFAULT '#888888';
