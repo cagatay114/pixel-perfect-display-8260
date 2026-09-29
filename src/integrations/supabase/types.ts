@@ -305,6 +305,78 @@ export type Database = {
         }
         Relationships: []
       }
+      storefront_rail_products: {
+        Row: {
+          created_at: string
+          product_id: string
+          rail_id: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          product_id: string
+          rail_id: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          product_id?: string
+          rail_id?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "storefront_rail_products_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "storefront_rail_products_rail_id_fkey"
+            columns: ["rail_id"]
+            isOneToOne: false
+            referencedRelation: "storefront_rails"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      storefront_rails: {
+        Row: {
+          created_at: string
+          href: string
+          id: string
+          is_active: boolean
+          max_products: number
+          min_products: number
+          name: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          href?: string
+          id?: string
+          is_active?: boolean
+          max_products?: number
+          min_products?: number
+          name: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          href?: string
+          id?: string
+          is_active?: boolean
+          max_products?: number
+          min_products?: number
+          name?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       style_advisor_conversations: {
         Row: {
           created_at: string
