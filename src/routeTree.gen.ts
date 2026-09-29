@@ -14,6 +14,7 @@ import { Route as CokSatanlarRouteImport } from './routes/cok-satanlar'
 import { Route as FavorilerRouteImport } from './routes/favoriler'
 import { Route as HesabimRouteImport } from './routes/hesabim'
 import { Route as SepetRouteImport } from './routes/sepet'
+import { Route as ApiStilDanismaniRouteImport } from './routes/api/stil-danismani'
 import { Route as BilgiSlugRouteImport } from './routes/bilgi.$slug'
 import { Route as KategoriSlugRouteImport } from './routes/kategori.$slug'
 import { Route as UrunSlugRouteImport } from './routes/urun.$slug'
@@ -43,6 +44,11 @@ const SepetRoute = SepetRouteImport.update({
   path: '/sepet',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiStilDanismaniRoute = ApiStilDanismaniRouteImport.update({
+  id: '/api/stil-danismani',
+  path: '/api/stil-danismani',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BilgiSlugRoute = BilgiSlugRouteImport.update({
   id: '/bilgi/$slug',
   path: '/bilgi/$slug',
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/favoriler': typeof FavorilerRoute
   '/hesabim': typeof HesabimRoute
   '/sepet': typeof SepetRoute
+  '/api/stil-danismani': typeof ApiStilDanismaniRoute
   '/bilgi/$slug': typeof BilgiSlugRoute
   '/kategori/$slug': typeof KategoriSlugRoute
   '/urun/$slug': typeof UrunSlugRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/favoriler': typeof FavorilerRoute
   '/hesabim': typeof HesabimRoute
   '/sepet': typeof SepetRoute
+  '/api/stil-danismani': typeof ApiStilDanismaniRoute
   '/bilgi/$slug': typeof BilgiSlugRoute
   '/kategori/$slug': typeof KategoriSlugRoute
   '/urun/$slug': typeof UrunSlugRoute
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/favoriler': typeof FavorilerRoute
   '/hesabim': typeof HesabimRoute
   '/sepet': typeof SepetRoute
+  '/api/stil-danismani': typeof ApiStilDanismaniRoute
   '/bilgi/$slug': typeof BilgiSlugRoute
   '/kategori/$slug': typeof KategoriSlugRoute
   '/urun/$slug': typeof UrunSlugRoute
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/favoriler'
     | '/hesabim'
     | '/sepet'
+    | '/api/stil-danismani'
     | '/bilgi/$slug'
     | '/kategori/$slug'
     | '/urun/$slug'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/favoriler'
     | '/hesabim'
     | '/sepet'
+    | '/api/stil-danismani'
     | '/bilgi/$slug'
     | '/kategori/$slug'
     | '/urun/$slug'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/favoriler'
     | '/hesabim'
     | '/sepet'
+    | '/api/stil-danismani'
     | '/bilgi/$slug'
     | '/kategori/$slug'
     | '/urun/$slug'
@@ -129,6 +141,7 @@ export interface RootRouteChildren {
   FavorilerRoute: typeof FavorilerRoute
   HesabimRoute: typeof HesabimRoute
   SepetRoute: typeof SepetRoute
+  ApiStilDanismaniRoute: typeof ApiStilDanismaniRoute
   BilgiSlugRoute: typeof BilgiSlugRoute
   KategoriSlugRoute: typeof KategoriSlugRoute
   UrunSlugRoute: typeof UrunSlugRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SepetRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/stil-danismani': {
+      id: '/api/stil-danismani'
+      path: '/api/stil-danismani'
+      fullPath: '/api/stil-danismani'
+      preLoaderRoute: typeof ApiStilDanismaniRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/bilgi/$slug': {
       id: '/bilgi/$slug'
       path: '/bilgi/$slug'
@@ -201,6 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   FavorilerRoute: FavorilerRoute,
   HesabimRoute: HesabimRoute,
   SepetRoute: SepetRoute,
+  ApiStilDanismaniRoute: ApiStilDanismaniRoute,
   BilgiSlugRoute: BilgiSlugRoute,
   KategoriSlugRoute: KategoriSlugRoute,
   UrunSlugRoute: UrunSlugRoute,
