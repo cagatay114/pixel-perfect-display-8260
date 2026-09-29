@@ -33,7 +33,7 @@ function CartPage() {
   const submitOrder = useServerFn(createCodOrder);
 
   const validate = () => {
-    const e: Record<string, string> = {};
+    const e: Partial<Record<"customerName" | "phone" | "email" | "city" | "address", string>> = {};
     if (form.customerName.trim().length < 3) e.customerName = "Ad soyad girin.";
     if (!/^[0-9+\s()-]{10,20}$/.test(form.phone.trim())) e.phone = "Geçerli bir telefon girin.";
     if (!/^\S+@\S+\.\S+$/.test(form.email.trim())) e.email = "Geçerli bir e-posta girin.";
