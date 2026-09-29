@@ -11,3 +11,4 @@
 
 - Use the shared ThemeProvider and semantic CSS tokens for all storefront and future admin colors, so one persisted preference controls the entire product.
 - Store storefront-wide editable presentation values in the protected `site_settings` backend table so the future admin and public shop share one source.
+- Derive best-seller ordering from completed order quantities through the shared ranking helper; never add a manual product flag.
