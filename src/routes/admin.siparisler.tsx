@@ -32,14 +32,50 @@ function Orders() {
     },
   });
 
+  function toggle(id: string) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  async function remove(ids: string[]) {
+    if (ids.length === 0) return;
+    const msg = ids.length === 1 ? "Bu siparişi silmek istediğinize emin misiniz?" : `${ids.length} siparişi silmek istediğinize emin misiniz?`;
+    if (!window.confirm(msg)) return;
+    setDeleting(true);
+    try {
+      await deleteOrders({ data: { ids } });
+      toast.success(ids.length === 1 ? "Sipariş silindi" : `${ids.length} sipariş silindi`);
+      setSelected(new Set());
+      setOpenId(null);
+      qc.invalidateQueries({ queryKey: ["admin"] });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Silme başarısız");
+    } finally {
+      setDeleting(false);
+    }
+  }
+
+  const allSelected = orders.length > 0 && selected.size === orders.length;
+
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-display text-3xl">Siparişler</h1>
-        <select className="h-9 rounded-md border border-input bg-background px-3 text-sm" value={filter} onChange={(e) => setFilter(e.target.value as Status | "")}>
-          <option value="">Tüm durumlar</option>
-          {ORDER_STATUSES.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
-        </select>
+        <div className="flex items-center gap-2">
+          {selected.size > 0 && (
+            <Button variant="destructive" size="sm" disabled={deleting} onClick={() => remove([...selected])}>
+              Seçilenleri Sil ({selected.size})
+            </Button>
+          )}
+          <select className="h-9 rounded-md border border-input bg-background px-3 text-sm" value={filter} onChange={(e) => setFilter(e.target.value as Status | "")}>
+            <option value="">Tüm durumlar</option>
+            {ORDER_STATUSES.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+          </select>
+        </div>
       </div>
       {orders.length === 0 ? (
         <p className="text-sm text-muted-foreground">Henüz sipariş yok. Ödeme adımı eklendiğinde siparişler burada görünecek.</p>
