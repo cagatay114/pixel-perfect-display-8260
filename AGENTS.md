@@ -15,3 +15,4 @@
 - Keep style-advisor AI calls in the authenticated server route, validate recommendations against the current catalog, and persist one RLS-scoped conversation per user.
 - Gate /admin client-side (ssr:false) via the `claim_admin_invite` RPC and enforce every admin write with `has_role` RLS policies; roles live only in `user_roles`, why: UI gates are bypassable, RLS is not.
 - Store product/hero images in the private `product-images` bucket as long-lived signed URLs, why: public buckets are blocked on this project.
+- Read the storefront catalog only through `catalogQuery`/`useCatalog` in src/lib/catalog.ts (primed in the root loader), why: the admin panel's database is the single product source.
