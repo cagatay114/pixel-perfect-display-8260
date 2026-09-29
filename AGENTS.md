@@ -13,3 +13,5 @@
 - Store storefront-wide editable presentation values in the protected `site_settings` backend table so the future admin and public shop share one source.
 - Derive best-seller ordering from completed order quantities through the shared ranking helper; never add a manual product flag.
 - Keep style-advisor AI calls in the authenticated server route, validate recommendations against the current catalog, and persist one RLS-scoped conversation per user.
+- Gate /admin client-side (ssr:false) via the `claim_admin_invite` RPC and enforce every admin write with `has_role` RLS policies; roles live only in `user_roles`, why: UI gates are bypassable, RLS is not.
+- Store product/hero images in the private `product-images` bucket as long-lived signed URLs, why: public buckets are blocked on this project.
