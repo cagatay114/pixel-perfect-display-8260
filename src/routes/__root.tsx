@@ -17,6 +17,7 @@ import { Footer } from "../components/Footer";
 import { CartDrawer } from "../components/CartDrawer";
 import { WhatsAppButton } from "../components/WhatsAppButton";
 import { ThemeProvider, themeBootScript } from "../lib/theme";
+import { MobileNavigation } from "../components/MobileNavigation";
 
 function NotFoundComponent() {
   return (
@@ -128,14 +129,17 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <ShopProvider>
-          <Header />
-          <main className="min-h-screen">
-            {/* Required: nested routes render here. */}
-            <Outlet />
-          </main>
-          <Footer />
+          <div className="pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
+            <Header />
+            <main className="min-h-screen">
+              {/* Required: nested routes render here. */}
+              <Outlet />
+            </main>
+            <Footer />
+          </div>
           <CartDrawer />
           <WhatsAppButton />
+          <MobileNavigation />
         </ShopProvider>
       </ThemeProvider>
     </QueryClientProvider>
