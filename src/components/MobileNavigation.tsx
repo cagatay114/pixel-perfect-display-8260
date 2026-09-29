@@ -29,11 +29,11 @@ export function MobileNavigation() {
         className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
       >
         <div className="grid h-16 grid-cols-4">
-          {navigationItems.map(({ label, to, icon: Icon, exact }) => (
+          {navigationItems.map(({ label, to, icon: Icon }) => (
             <Link
               key={to}
               to={to}
-              activeOptions={{ exact }}
+              activeOptions={{ exact: to === "/" }}
               className="relative flex min-w-0 flex-col items-center justify-center gap-1 px-1 text-muted-foreground transition-colors hover:text-gold"
               activeProps={{ className: "text-gold" }}
             >
