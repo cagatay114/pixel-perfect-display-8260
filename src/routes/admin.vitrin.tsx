@@ -9,7 +9,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
-export const Route = createFileRoute("/admin/vitrin")({ component: StorefrontManager });
+export const Route = createFileRoute("/admin/vitrin")({
+  head: () => ({
+    meta: [
+      { title: "Vitrin Yönetimi | RK Collection" },
+      { name: "description", content: "RK Collection ana sayfa ürün vitrinlerini yönetin." },
+      { property: "og:title", content: "Vitrin Yönetimi | RK Collection" },
+      { property: "og:description", content: "RK Collection ana sayfa ürün vitrinlerini yönetin." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+      { name: "robots", content: "noindex, nofollow" },
+    ],
+  }),
+  component: StorefrontManager,
+});
 
 const adminRailsQuery = {
   queryKey: ["admin", "storefront-rails"],
