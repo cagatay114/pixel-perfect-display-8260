@@ -31,6 +31,7 @@ function CartPage() {
   const [busy, setBusy] = useState(false);
   const [serverError, setServerError] = useState("");
   const submitOrder = useServerFn(createCodOrder);
+  const { freeShippingLimit: FREE_SHIPPING_LIMIT } = useStoreSettings();
 
   const validate = () => {
     const e: Partial<Record<"customerName" | "phone" | "email" | "city" | "address", string>> = {};
@@ -87,7 +88,6 @@ function CartPage() {
       {errors[key] && <span className="mt-1 block text-xs text-destructive">{errors[key]}</span>}
     </label>
   );
-  const { freeShippingLimit: FREE_SHIPPING_LIMIT } = useStoreSettings();
   const shipping = subtotal >= FREE_SHIPPING_LIMIT || subtotal === 0 ? 0 : 89;
 
   return (
