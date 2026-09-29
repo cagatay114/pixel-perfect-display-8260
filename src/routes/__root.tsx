@@ -18,6 +18,7 @@ import { CartDrawer } from "../components/CartDrawer";
 import { WhatsAppButton } from "../components/WhatsAppButton";
 import { ThemeProvider, themeBootScript } from "../lib/theme";
 import { MobileNavigation } from "../components/MobileNavigation";
+import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -140,6 +141,7 @@ function RootComponent() {
           <CartDrawer />
           <WhatsAppButton />
           <MobileNavigation />
+          <Toaster position="top-center" />
         </ShopProvider>
       </ThemeProvider>
     </QueryClientProvider>

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ChevronDown, Flame, Heart, Menu, Moon, Search, ShoppingBag, Sun, User, X } from "lucide-react";
+import { Bot, ChevronDown, Flame, Heart, Menu, Moon, Search, ShoppingBag, Sun, User, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { ANNOUNCEMENT, categories, formatPrice, products } from "@/lib/data";
 import { useShop } from "@/lib/store";
@@ -128,6 +128,11 @@ export function Header() {
       <div className="hidden border-y border-border lg:block">
         <ul className="mx-auto flex max-w-7xl items-center justify-center gap-6 px-4 py-3 text-[11px] uppercase tracking-[0.16em]">
           <li>
+            <Link to="/stil-danismani" className="flex items-center gap-1.5 transition-colors hover:text-gold" activeProps={{ className: "text-gold" }}>
+              <Bot className="h-3.5 w-3.5" strokeWidth={1.75} /> Stil Danışmanı
+            </Link>
+          </li>
+          <li>
             <Link
               to="/cok-satanlar"
               className="flex items-center gap-1.5 transition-colors hover:text-gold"
@@ -234,6 +239,11 @@ export function Header() {
               </ul>
             )}
             <ul className="divide-y divide-border border-y border-border">
+              <li>
+                <Link to="/stil-danismani" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-3 text-sm uppercase tracking-[0.14em] text-gold">
+                  <Bot className="h-4 w-4" /> Stil Danışmanı
+                </Link>
+              </li>
               {categories.map((c) => (
                 <li key={c.slug} className="py-1">
                   <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center">
