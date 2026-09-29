@@ -140,11 +140,18 @@ function AuthForm() {
       <button
         type="button"
         className="btn-outline mt-3 w-full"
-        onClick={() =>
-          lovable.auth.signInWithOAuth("google", {
-            redirect_uri: `${window.location.origin}/hesabim`,
-          })
-        }
+        onClick={async () => {
+          try {
+            const result = await lovable.auth.signInWithOAuth("google", {
+              redirect_uri: window.location.origin,
+            });
+            if (result.error) {
+              toast.error("Google ile giriş başarısız: " + (result.error.message ?? "tekrar deneyin"));
+            }
+          } catch (e) {
+            toast.error("Google ile giriş açılamadı. Açılır pencere engelleyiciyi kapatıp tekrar deneyin.");
+          }
+        }}
       >
         Google ile devam et
       </button>
