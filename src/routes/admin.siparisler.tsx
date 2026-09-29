@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { formatPrice } from "@/lib/data";
 import { ORDER_STATUSES, statusLabel } from "@/lib/admin";
+import { deleteOrders } from "@/lib/orders.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -15,8 +16,11 @@ type Status = Database["public"]["Enums"]["order_status"];
 export const Route = createFileRoute("/admin/siparisler")({ component: Orders });
 
 function Orders() {
+  const qc = useQueryClient();
   const [openId, setOpenId] = useState<string | null>(null);
   const [filter, setFilter] = useState<Status | "">("");
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [deleting, setDeleting] = useState(false);
   const { data: orders = [] } = useQuery({
     queryKey: ["admin", "orders", filter],
     queryFn: async () => {
@@ -28,14 +32,50 @@ function Orders() {
     },
   });
 
+  function toggle(id: string) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  async function remove(ids: string[]) {
+    if (ids.length === 0) return;
+    const msg = ids.length === 1 ? "Bu siparişi silmek istediğinize emin misiniz?" : `${ids.length} siparişi silmek istediğinize emin misiniz?`;
+    if (!window.confirm(msg)) return;
+    setDeleting(true);
+    try {
+      await deleteOrders({ data: { ids } });
+      toast.success(ids.length === 1 ? "Sipariş silindi" : `${ids.length} sipariş silindi`);
+      setSelected(new Set());
+      setOpenId(null);
+      qc.invalidateQueries({ queryKey: ["admin"] });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Silme başarısız");
+    } finally {
+      setDeleting(false);
+    }
+  }
+
+  const allSelected = orders.length > 0 && selected.size === orders.length;
+
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-display text-3xl">Siparişler</h1>
-        <select className="h-9 rounded-md border border-input bg-background px-3 text-sm" value={filter} onChange={(e) => setFilter(e.target.value as Status | "")}>
-          <option value="">Tüm durumlar</option>
-          {ORDER_STATUSES.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
-        </select>
+        <div className="flex items-center gap-2">
+          {selected.size > 0 && (
+            <Button variant="destructive" size="sm" disabled={deleting} onClick={() => remove([...selected])}>
+              Seçilenleri Sil ({selected.size})
+            </Button>
+          )}
+          <select className="h-9 rounded-md border border-input bg-background px-3 text-sm" value={filter} onChange={(e) => setFilter(e.target.value as Status | "")}>
+            <option value="">Tüm durumlar</option>
+            {ORDER_STATUSES.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+          </select>
+        </div>
       </div>
       {orders.length === 0 ? (
         <p className="text-sm text-muted-foreground">Henüz sipariş yok. Ödeme adımı eklendiğinde siparişler burada görünecek.</p>
@@ -43,16 +83,34 @@ function Orders() {
         <div className="overflow-x-auto rounded-lg border border-border">
           <table className="w-full text-sm">
             <thead className="bg-secondary text-left text-xs uppercase tracking-wider text-muted-foreground">
-              <tr><th className="p-3">No</th><th className="p-3">Tarih</th><th className="p-3">Müşteri</th><th className="p-3">Tutar</th><th className="p-3">Durum</th></tr>
+              <tr>
+                <th className="p-3 w-8">
+                  <input
+                    type="checkbox"
+                    aria-label="Tümünü seç"
+                    checked={allSelected}
+                    onChange={() => setSelected(allSelected ? new Set() : new Set(orders.map((o) => o.id)))}
+                  />
+                </th>
+                <th className="p-3">No</th><th className="p-3">Tarih</th><th className="p-3">Müşteri</th><th className="p-3">Tutar</th><th className="p-3">Durum</th><th className="p-3 w-16"></th>
+              </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {orders.map((o) => (
                 <tr key={o.id} className="cursor-pointer hover:bg-secondary/50" onClick={() => setOpenId(o.id)}>
+                  <td className="p-3" onClick={(e) => e.stopPropagation()}>
+                    <input type="checkbox" aria-label={`Sipariş #${o.order_number} seç`} checked={selected.has(o.id)} onChange={() => toggle(o.id)} />
+                  </td>
                   <td className="p-3">#{o.order_number}</td>
                   <td className="p-3">{new Date(o.created_at).toLocaleString("tr-TR")}</td>
                   <td className="p-3">{o.customer_name}</td>
                   <td className="p-3">{formatPrice(Number(o.total))}</td>
                   <td className="p-3 text-gold">{statusLabel(o.status)}</td>
+                  <td className="p-3" onClick={(e) => e.stopPropagation()}>
+                    <Button variant="ghost" size="sm" className="text-destructive" disabled={deleting} onClick={() => remove([o.id])}>
+                      Sil
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -60,13 +118,13 @@ function Orders() {
         </div>
       )}
       <Dialog open={!!openId} onOpenChange={(o) => !o && setOpenId(null)}>
-        <DialogContent className="max-h-[90vh] overflow-y-auto">{openId && <OrderDetail id={openId} />}</DialogContent>
+        <DialogContent className="max-h-[90vh] overflow-y-auto">{openId && <OrderDetail id={openId} onDelete={() => remove([openId])} deleting={deleting} />}</DialogContent>
       </Dialog>
     </div>
   );
 }
 
-function OrderDetail({ id }: { id: string }) {
+function OrderDetail({ id, onDelete, deleting }: { id: string; onDelete: () => void; deleting: boolean }) {
   const qc = useQueryClient();
   const { data } = useQuery({
     queryKey: ["admin", "order", id],
@@ -120,6 +178,9 @@ function OrderDetail({ id }: { id: string }) {
         <Input placeholder="Kargo takip no" value={tracking ?? data.tracking_number ?? ""} onChange={(e) => setTracking(e.target.value)} />
       </div>
       <Button className="w-full" onClick={save}>Kaydet</Button>
+      <Button variant="destructive" className="w-full" disabled={deleting} onClick={onDelete}>
+        Siparişi Sil
+      </Button>
     </div>
   );
 }
