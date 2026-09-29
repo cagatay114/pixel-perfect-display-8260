@@ -118,7 +118,7 @@ function Orders() {
         </div>
       )}
       <Dialog open={!!openId} onOpenChange={(o) => !o && setOpenId(null)}>
-        <DialogContent className="max-h-[90vh] overflow-y-auto">{openId && <OrderDetail id={openId} />}</DialogContent>
+        <DialogContent className="max-h-[90vh] overflow-y-auto">{openId && <OrderDetail id={openId} onDelete={() => remove([openId])} deleting={deleting} />}</DialogContent>
       </Dialog>
     </div>
   );
