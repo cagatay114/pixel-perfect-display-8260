@@ -6,6 +6,7 @@ import { STORE } from "@/lib/data";
 import { useCatalog } from "@/lib/catalog";
 import { useStoreSettings } from "@/lib/site-settings";
 import { HeroCarousel } from "@/components/HeroCarousel";
+import { productsForRail, useStorefrontRails } from "@/lib/storefront-rails";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,7 +29,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const outerwear = ["mont", "trenckot", "ceket", "hirka"];
 const trustItems = [
   { icon: Truck, label: "1500 TL üzeri ücretsiz kargo" },
   { icon: PackageCheck, label: "Kapıda ödeme imkanı" },
@@ -41,6 +41,7 @@ function Index() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const { heroSlides } = useStoreSettings();
+  const storefrontRails = useStorefrontRails();
 
   return (
     <>
@@ -57,21 +58,12 @@ function Index() {
         </div>
       </section>
 
-      <ProductRail
-        title="Yeni Sezon"
-        href="yeni-gelenler"
-        products={products.filter((p) => p.isNew).slice(0, 8)}
-      />
-      <ProductRail
-        title="İndirimdekiler"
-        href="indirim"
-        products={products.filter((p) => p.oldPrice).slice(0, 8)}
-      />
-      <ProductRail
-        title="Dış Giyim"
-        href="mont"
-        products={products.filter((p) => outerwear.includes(p.category)).slice(0, 8)}
-      />
+      {storefrontRails.map((rail) => {
+        const railProducts = productsForRail(rail, products);
+        return railProducts.length > 0 ? (
+          <ProductRail key={rail.id} title={rail.name} href={rail.href} products={railProducts} />
+        ) : null;
+      })}
 
       <section className="mx-auto max-w-7xl px-4 py-12">
         <p className="eyebrow">Keşfet</p>

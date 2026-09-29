@@ -17,3 +17,4 @@
 - Gate /admin client-side (ssr:false) via the `claim_admin_invite` RPC and enforce every admin write with `has_role` RLS policies; roles live only in `user_roles`, why: UI gates are bypassable, RLS is not.
 - Store product/hero images in the private `product-images` bucket as long-lived signed URLs, why: public buckets are blocked on this project.
 - Read the storefront catalog only through `catalogQuery`/`useCatalog` in src/lib/catalog.ts (primed in the root loader), why: the admin panel's database is the single product source.
+- Store ordered home product rails and their independently ordered product memberships in `storefront_rails` / `storefront_rail_products`; never derive rail membership from product badges, why: merchandising and badges are separate concerns.
