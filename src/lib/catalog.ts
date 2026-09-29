@@ -15,8 +15,8 @@ let publicClient: SupabaseClient<Database> | null = null;
 /** Anonymous, session-less client so the catalog reads the same on server and browser. */
 function catalogClient() {
   if (publicClient) return publicClient;
-  const url = import.meta.env.VITE_SUPABASE_URL as string;
-  const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
+  const url = import.meta.env["VITE_SUPABASE_URL"] as string;
+  const key = import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"] as string;
   publicClient = createClient<Database>(url, key, {
     auth: { persistSession: false, autoRefreshToken: false, storage: undefined },
     global: {
@@ -63,9 +63,9 @@ export async function fetchCatalog(client: SupabaseClient<Database> = catalogCli
       slug: p.slug,
       name: p.name,
       category: parent?.slug ?? cat?.slug ?? "",
-      subcategory: parent ? cat?.slug : undefined,
+      ...(parent && cat ? { subcategory: cat.slug } : {}),
       price,
-      oldPrice: old && old > price ? old : undefined,
+      ...(old && old > price ? { oldPrice: old } : {}),
       isNew: p.is_new,
       color: p.color,
       colorHex: p.color_hex,

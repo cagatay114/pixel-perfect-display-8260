@@ -22,7 +22,8 @@ import { Shimmer } from "@/components/ai-elements/shimmer";
 import { Button } from "@/components/ui/button";
 import { lovable } from "@/integrations/lovable";
 import { supabase } from "@/integrations/supabase/client";
-import { formatPrice, products } from "@/lib/data";
+import { formatPrice } from "@/lib/data";
+import { useCatalog } from "@/lib/catalog";
 
 type AdvisorProps = {
   initialMessages: UIMessage[];
@@ -39,6 +40,7 @@ function isRecommendationOutput(value: unknown): value is RecommendationOutput {
 }
 
 function AdvisorChat({ initialMessages, accessToken, onClear }: AdvisorProps) {
+  const { products } = useCatalog();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const transport = useMemo(() => new DefaultChatTransport({
     api: "/api/stil-danismani",

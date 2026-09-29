@@ -20,6 +20,7 @@ import { WhatsAppButton } from "../components/WhatsAppButton";
 import { ThemeProvider, themeBootScript } from "../lib/theme";
 import { MobileNavigation } from "../components/MobileNavigation";
 import { Toaster } from "../components/ui/sonner";
+import { catalogQuery } from "../lib/catalog";
 
 function NotFoundComponent() {
   return (
@@ -103,6 +104,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData(catalogQuery);
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

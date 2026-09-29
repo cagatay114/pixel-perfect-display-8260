@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { STORE, categories } from "@/lib/data";
+import { STORE } from "@/lib/data";
+import { useCatalog } from "@/lib/catalog";
 
 const legalPages = [
   { slug: "hakkimizda", name: "Hakkımızda" },
@@ -12,6 +13,7 @@ const legalPages = [
 ];
 
 export function Footer() {
+  const { categories } = useCatalog();
   return (
     <footer className="mt-24 border-t border-border bg-surface">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-4">

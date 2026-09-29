@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PackageCheck, RotateCcw, Store, Truck } from "lucide-react";
 import { useState } from "react";
 import { ProductRail } from "@/components/ProductRail";
-import { STORE, categories, products } from "@/lib/data";
+import { STORE } from "@/lib/data";
+import { useCatalog } from "@/lib/catalog";
 import { useStoreSettings } from "@/lib/site-settings";
 
 export const Route = createFileRoute("/")({
@@ -35,6 +36,7 @@ const trustItems = [
 ];
 
 function Index() {
+  const { categories, products } = useCatalog();
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const { heroImageUrl, heroEyebrow, heroTitle, heroSubtitle } = useStoreSettings();
