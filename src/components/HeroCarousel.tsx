@@ -100,14 +100,16 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
           </Button>
           <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2" role="tablist" aria-label="Banner seçimi">
             {slides.map((slide, index) => (
-              <button
+              <Button
                 key={slide.id}
                 type="button"
+                variant="ghost"
+                size="icon"
                 role="tab"
                 aria-selected={index === active}
                 aria-label={`${index + 1}. bannerı göster`}
                 onClick={() => goTo(index)}
-                className={`h-2.5 w-2.5 rounded-full border transition-colors ${index === active ? "border-gold bg-gold" : "border-foreground/70 bg-transparent"}`}
+                className="h-8 w-8 rounded-full bg-transparent p-0 hover:bg-transparent"
               />
             ))}
           </div>

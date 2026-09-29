@@ -12,8 +12,12 @@ export type HeroSlide = {
   buttonLink: string;
 };
 
+const PRIMARY_HERO_SLIDE: HeroSlide = {
+  id: "yeni-sezon", imageUrl: "", eyebrow: "Yeni Sezon", title: "Sade kalıplar, güçlü bir duruş", subtitle: "Günün her anına uyum sağlayan seçkin parçalarla stilinizi tamamlayın.", buttonText: "Koleksiyonu Keşfet", buttonLink: "yeni-gelenler",
+};
+
 export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
-  { id: "yeni-sezon", imageUrl: "", eyebrow: "Yeni Sezon", title: "Sade kalıplar, güçlü bir duruş", subtitle: "Günün her anına uyum sağlayan seçkin parçalarla stilinizi tamamlayın.", buttonText: "Koleksiyonu Keşfet", buttonLink: "yeni-gelenler" },
+  PRIMARY_HERO_SLIDE,
   { id: "dis-giyim", imageUrl: "", eyebrow: "Dış Giyim", title: "Mevsime karşı kusursuz katmanlar", subtitle: "Net çizgiler, dengeli dokular ve uzun süre dolabınızda kalacak tasarımlar.", buttonText: "Dış Giyimi Gör", buttonLink: "mont" },
   { id: "pantolon", imageUrl: "", eyebrow: "Modern Klasikler", title: "Her adımda rahat, her görünümde özenli", subtitle: "Günlük şehir stilinin temelini oluşturan pantolon koleksiyonunu keşfedin.", buttonText: "Pantolonları İncele", buttonLink: "pantolon" },
 ];
@@ -51,12 +55,12 @@ export function useStoreSettings() {
   const storedSlides = readHeroSlides(data?.["hero_slides"]);
   const legacySlide: HeroSlide | null = data?.["hero_image_url"] || data?.["hero_title"] || data?.["hero_subtitle"]
     ? {
-        ...DEFAULT_HERO_SLIDES[0],
+        ...PRIMARY_HERO_SLIDE,
         id: "legacy-banner",
         imageUrl: data?.["hero_image_url"] || "",
-        eyebrow: data?.["hero_eyebrow"] || DEFAULT_HERO_SLIDES[0].eyebrow,
-        title: data?.["hero_title"] || DEFAULT_HERO_SLIDES[0].title,
-        subtitle: data?.["hero_subtitle"] || DEFAULT_HERO_SLIDES[0].subtitle,
+        eyebrow: data?.["hero_eyebrow"] || PRIMARY_HERO_SLIDE.eyebrow,
+        title: data?.["hero_title"] || PRIMARY_HERO_SLIDE.title,
+        subtitle: data?.["hero_subtitle"] || PRIMARY_HERO_SLIDE.subtitle,
       }
     : null;
   const heroSlides = storedSlides ?? (legacySlide ? [legacySlide, ...DEFAULT_HERO_SLIDES.slice(1)] : DEFAULT_HERO_SLIDES);

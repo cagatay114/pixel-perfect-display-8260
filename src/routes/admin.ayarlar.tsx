@@ -42,11 +42,11 @@ function SettingsPage() {
   async function save() {
     const limit = values["free_shipping_limit"];
     if (limit && !(Number(limit) > 0)) { toast.error("Kargo limiti pozitif bir sayı olmalı."); return; }
-    setBusy(true);
     if (slides.length < 3 || slides.length > 5) { toast.error("Banner sayısı 3 ile 5 arasında olmalı."); return; }
     if (slides.some((slide) => !slide.title.trim() || !slide.subtitle.trim() || !slide.buttonText.trim() || !slide.buttonLink.trim())) {
       toast.error("Her banner için başlık, açıklama, buton metni ve bağlantı zorunludur."); return;
     }
+    setBusy(true);
     const rows = [
       ...FIELDS.map((f) => ({ key: f.key, value: values[f.key]?.trim() || null })),
       { key: "hero_slides", value: JSON.stringify(slides) },
@@ -67,7 +67,11 @@ function SettingsPage() {
     if (nextIndex < 0 || nextIndex >= slides.length) return;
     setSlides((current) => {
       const next = [...current];
-      [next[index], next[nextIndex]] = [next[nextIndex], next[index]];
+      const currentSlide = next[index];
+      const targetSlide = next[nextIndex];
+      if (!currentSlide || !targetSlide) return current;
+      next[index] = targetSlide;
+      next[nextIndex] = currentSlide;
       return next;
     });
   }
