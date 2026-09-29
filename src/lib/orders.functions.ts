@@ -74,3 +74,17 @@ export const createCodOrder = createServerFn({ method: "POST" })
     }
     return { orderNumber: order.order_number, total: Number(order.total) };
   });
+
+export const deleteOrders = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .validator((d: unknown) => z.object({ ids: z.array(z.string().uuid()).min(1).max(200) }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { data: isAdmin } = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "admin" });
+    if (!isAdmin) throw new Error("Yetkiniz yok");
+    const { supabaseAdmin: db } = await import("@/integrations/supabase/client.server");
+    const { error: iErr } = await db.from("order_items").delete().in("order_id", data.ids);
+    if (iErr) throw new Error("Sipariş kalemleri silinemedi");
+    const { error } = await db.from("orders").delete().in("id", data.ids);
+    if (error) throw new Error("Siparişler silinemedi");
+    return { deleted: data.ids.length };
+  });
