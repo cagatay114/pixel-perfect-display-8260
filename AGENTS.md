@@ -11,6 +11,7 @@
 
 - Use the shared ThemeProvider and semantic CSS tokens for all storefront and future admin colors, so one persisted preference controls the entire product.
 - Store storefront-wide editable presentation values in the protected `site_settings` backend table so the future admin and public shop share one source.
+- Store the 3–5 ordered home banners as validated JSON in the `hero_slides` site setting, so carousel presentation stays editable without a parallel content source.
 - Derive best-seller ordering from completed order quantities through the shared ranking helper; never add a manual product flag.
 - Keep style-advisor AI calls in the authenticated server route, validate recommendations against the current catalog, and persist one RLS-scoped conversation per user.
 - Gate /admin client-side (ssr:false) via the `claim_admin_invite` RPC and enforce every admin write with `has_role` RLS policies; roles live only in `user_roles`, why: UI gates are bypassable, RLS is not.
