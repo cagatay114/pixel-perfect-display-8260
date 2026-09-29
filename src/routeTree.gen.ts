@@ -21,6 +21,7 @@ import { Route as AdminAyarlarRouteImport } from './routes/admin.ayarlar'
 import { Route as AdminKategorilerRouteImport } from './routes/admin.kategoriler'
 import { Route as AdminSiparislerRouteImport } from './routes/admin.siparisler'
 import { Route as AdminUrunlerRouteImport } from './routes/admin.urunler'
+import { Route as AdminVitrinRouteImport } from './routes/admin.vitrin'
 import { Route as ApiStilDanismaniRouteImport } from './routes/api/stil-danismani'
 import { Route as BilgiSlugRouteImport } from './routes/bilgi.$slug'
 import { Route as KategoriSlugRouteImport } from './routes/kategori.$slug'
@@ -86,6 +87,11 @@ const AdminUrunlerRoute = AdminUrunlerRouteImport.update({
   path: '/urunler',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminVitrinRoute = AdminVitrinRouteImport.update({
+  id: '/vitrin',
+  path: '/vitrin',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ApiStilDanismaniRoute = ApiStilDanismaniRouteImport.update({
   id: '/api/stil-danismani',
   path: '/api/stil-danismani',
@@ -119,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/admin/kategoriler': typeof AdminKategorilerRoute
   '/admin/siparisler': typeof AdminSiparislerRoute
   '/admin/urunler': typeof AdminUrunlerRoute
+  '/admin/vitrin': typeof AdminVitrinRoute
   '/api/stil-danismani': typeof ApiStilDanismaniRoute
   '/bilgi/$slug': typeof BilgiSlugRoute
   '/kategori/$slug': typeof KategoriSlugRoute
@@ -136,6 +143,7 @@ export interface FileRoutesByTo {
   '/admin/kategoriler': typeof AdminKategorilerRoute
   '/admin/siparisler': typeof AdminSiparislerRoute
   '/admin/urunler': typeof AdminUrunlerRoute
+  '/admin/vitrin': typeof AdminVitrinRoute
   '/api/stil-danismani': typeof ApiStilDanismaniRoute
   '/bilgi/$slug': typeof BilgiSlugRoute
   '/kategori/$slug': typeof KategoriSlugRoute
@@ -155,6 +163,7 @@ export interface FileRoutesById {
   '/admin/kategoriler': typeof AdminKategorilerRoute
   '/admin/siparisler': typeof AdminSiparislerRoute
   '/admin/urunler': typeof AdminUrunlerRoute
+  '/admin/vitrin': typeof AdminVitrinRoute
   '/api/stil-danismani': typeof ApiStilDanismaniRoute
   '/bilgi/$slug': typeof BilgiSlugRoute
   '/kategori/$slug': typeof KategoriSlugRoute
@@ -175,6 +184,7 @@ export interface FileRouteTypes {
     | '/admin/kategoriler'
     | '/admin/siparisler'
     | '/admin/urunler'
+    | '/admin/vitrin'
     | '/api/stil-danismani'
     | '/bilgi/$slug'
     | '/kategori/$slug'
@@ -192,6 +202,7 @@ export interface FileRouteTypes {
     | '/admin/kategoriler'
     | '/admin/siparisler'
     | '/admin/urunler'
+    | '/admin/vitrin'
     | '/api/stil-danismani'
     | '/bilgi/$slug'
     | '/kategori/$slug'
@@ -210,6 +221,7 @@ export interface FileRouteTypes {
     | '/admin/kategoriler'
     | '/admin/siparisler'
     | '/admin/urunler'
+    | '/admin/vitrin'
     | '/api/stil-danismani'
     | '/bilgi/$slug'
     | '/kategori/$slug'
@@ -317,6 +329,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUrunlerRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/vitrin': {
+      id: '/admin/vitrin'
+      path: '/vitrin'
+      fullPath: '/admin/vitrin'
+      preLoaderRoute: typeof AdminVitrinRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/api/stil-danismani': {
       id: '/api/stil-danismani'
       path: '/api/stil-danismani'
@@ -353,6 +372,7 @@ interface AdminRouteChildren {
   AdminKategorilerRoute: typeof AdminKategorilerRoute
   AdminSiparislerRoute: typeof AdminSiparislerRoute
   AdminUrunlerRoute: typeof AdminUrunlerRoute
+  AdminVitrinRoute: typeof AdminVitrinRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
@@ -361,6 +381,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminKategorilerRoute: AdminKategorilerRoute,
   AdminSiparislerRoute: AdminSiparislerRoute,
   AdminUrunlerRoute: AdminUrunlerRoute,
+  AdminVitrinRoute: AdminVitrinRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 

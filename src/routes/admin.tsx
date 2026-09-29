@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
-import { LayoutDashboard, LogOut, Package, Settings, ShoppingBag, Tags } from "lucide-react";
+import { GalleryHorizontalEnd, LayoutDashboard, LogOut, Package, Settings, ShoppingBag, Tags } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAccess } from "@/lib/admin";
@@ -27,6 +27,7 @@ export const Route = createFileRoute("/admin")({
 const NAV = [
   { to: "/admin", label: "Özet", icon: LayoutDashboard, exact: true },
   { to: "/admin/urunler", label: "Ürünler", icon: Package },
+  { to: "/admin/vitrin", label: "Vitrin", icon: GalleryHorizontalEnd },
   { to: "/admin/siparisler", label: "Siparişler", icon: ShoppingBag },
   { to: "/admin/kategoriler", label: "Kategoriler", icon: Tags },
   { to: "/admin/ayarlar", label: "Site Ayarları", icon: Settings },

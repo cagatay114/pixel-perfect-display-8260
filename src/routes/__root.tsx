@@ -21,6 +21,7 @@ import { ThemeProvider, themeBootScript } from "../lib/theme";
 import { MobileNavigation } from "../components/MobileNavigation";
 import { Toaster } from "../components/ui/sonner";
 import { catalogQuery } from "../lib/catalog";
+import { storefrontRailsQuery } from "../lib/storefront-rails";
 
 function NotFoundComponent() {
   return (
@@ -105,7 +106,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
   }),
   loader: async ({ context }) => {
-    await context.queryClient.ensureQueryData(catalogQuery);
+    await Promise.all([
+      context.queryClient.ensureQueryData(catalogQuery),
+      context.queryClient.ensureQueryData(storefrontRailsQuery),
+    ]);
   },
   shellComponent: RootShell,
   component: RootComponent,
